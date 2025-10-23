@@ -19,9 +19,13 @@
 - Beim Ändern der Wunschtemperatur wird die Wunschtemperaturanzeige in Echtzeit aktualisiert.
 - Bei einer Einstellung des Drehrads von weniger als 50 °C wird der Grill nicht eingeschaltet.
 
-## F2. Aktuelle Temperatur
+## F2.1 Aktuelle Temperatur
 - Die aktuelle Temperatur des Elektrogrills wird mir eindeutig auf einem extra Panel angezeigt.
 - Die Anzeige der aktuelle Temperatur kann Werte von 50 bis 500 °C annehmen.
+
+## F3.1 Veränderung der aktuellen Temperatur über Zeit
+- Die aktuelle Temperatur sinkt und steigt um eine bestimmte Temperatur pro Sekunde, je nachdem 
+ob der Grill aktiviert ist oder nicht bzw. die Wunschtemperatur bereits erreicht hat.
 
 ## F3. Zieltemperaturstatus
 - Ein Lämpchen leuchtet, solange die aktuelle Temperatur des Elektrogrills
