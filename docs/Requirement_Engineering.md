@@ -1,36 +1,39 @@
-# Teilfunktionalitäten
-## 1. Wunschtemperaturänderung & -anzeige
-## 2. Aktuelle Temperatur
-## 3. Zieltemperaturstatus
-## 4. An-Aus-Schalter
-## 5. Resttemperaturanzeige
-
 # Lastenheft
-## 1. Die Wunschtemperatur wird angezeigt und kann geändert werden.
-## 2. Die aktuelle Temperatur des Elektrogrills ist gut sichtbar. 
-## 3. Der Grill hat eine eindeutige Anzeige, ob die Wunschtemperatur bereits erreicht wurde.
-## 4. Der Grill kann an und ausgeschaltet werden.
-## 5. Der Grill zeigt im "Aus"-Zustand an, ob er noch heiß ist.
+## F1. Ich sehe die eingestellte Wunschtemperatur und kann sie ändern.
+## F2. Ich sehe die aktuelle Temperatur des Elektrogrills.
+## F3. Ich sehe, ob der Elektrogrill bereits die Wunschtemperatur erreicht hat.
+## F4. Ich kann den Elektrogrill an- und ausschalten.
+## F5. Ich sehe, wenn der Elektrogrill zwar aus aber noch heiß ist.
 
 
 # Pflichtenheft
-## 1. Wunschtemperaturänderung & -anzeige
-- Die Wunschtemperatur ist mithilfe eines Drehrads zu ändern.
-- Die Wunschtemperatur wird auf einer Anzeige angezeigt und ändert sich abhängig von dem Drehrad.
-- Sie kann Werte von 0 bis 300 annehmen.
+## F1. Wunschtemperatur
+## F1.1 Wunschtemperaturanzeige
+- Die aktuelle Wunschtemperatur wird mir eindeutig als Panel angezeigt.
+- Die gewünschte Temperatur ist auch durch den Zeiger eines Drehrads ersichtlich.
+- Die Wunschtemperatur kann den Wert 0 °C und Werte von 50 bis 500 °C annehmen.
 
-## 2. Aktuelle Temperatur
-- Die aktuelle Temperatur wird auf einem Panel angezeigt.
-- Die aktuelle Temperatur zeigt Werte von 0.
+## F1.2 Wunschtemperaturänderung
+- Die Wunschtemperatur ist mithilfe des zuvor genannenten Drehrads zu ändern.
+- Das Drehrad kann den Wert 0 °C und Werte von 50 bis 500 °C annehmen.
+- Beim Ändern der Wunschtemperatur wird die Wunschtemperaturanzeige in Echtzeit aktualisiert.
+- Bei einer Einstellung des Drehrads von weniger als 50 °C wird der Grill nicht eingeschaltet.
 
-## 3. Zieltemperaturstatus
-- Die Wunschtemperatur wird auf einem Panel angezeigt und aktualisiert sich abhängig vom Drehrad zur Wunschtemperaturänderung.
-- Ein Lämpchen neben der Wunschtemperatur leuchtet permanent orange, bis die aktuelle Temperatur die Wunschtemperatur erreicht hat.
+## F2. Aktuelle Temperatur
+- Die aktuelle Temperatur des Elektrogrills wird mir eindeutig auf einem extra Panel angezeigt.
+- Die Anzeige der aktuelle Temperatur kann Werte von 50 bis 500 °C annehmen.
 
-## 4. An-Aus-Schalter
-- Ein Schalter kann gedrückt werden, der den Grill an oder ausschaltt.
-- Ein Lämpchen leuchtet grün, wenn der Grill angeschaltet ist und erlischt wenn er aus ist.
+## F3. Zieltemperaturstatus
+- Ein Lämpchen leuchtet, solange die aktuelle Temperatur des Elektrogrills
+die Wunschtemperatur noch nicht erreicht hat.
+- Das Lämpchen erlischt, wenn die aktuelle Temperatur die Wunschtemperatur erreicht hat.
 
-## 5. Resttemperaturanzeige
-- Die Anzeige für die Wunschtemperatur auf dem Grill ändert sich zu "H", wenn die aktuelle Temperatur über 30 °C ist.
-- Die Anzeige für die Wunschtemperatur erlischt komplett, wenn die aktuelle Temperatur unter 30 °C sinkt.
+## F4. An-Aus-Funktion
+- Eine Anzeige "On-Off" zeigt "AN" an, wenn das Drehrad zur Wunschtemperatureinstellung 50 °C oder mehr eingestellt hat.
+- Durch Drehen des Drehrads auf weniger als 50 °C wird der Grill ausgeschaltet und die Lampe schaltet sich ab
+oder schaltet sich in den Resttemperaturmodus.
+
+## F5. Resttemperaturmodus
+- Wenn das Drehrad zur Wunschtemperatureinstellung auf 50 °C oder weniger eingestellt ist und der Grill somit aus ist, 
+ändert sich die Anzeige "On-Off" entweder zu "H", wenn die aktuelle Temperatur über 50 °C ist.
+- Wenn der Grill aus ist und die aktuelle Temperatur unter 50 °C ist, erlischt die Anzeige "On-Off" komplett.
