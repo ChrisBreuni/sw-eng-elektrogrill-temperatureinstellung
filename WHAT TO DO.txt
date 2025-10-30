@@ -1,0 +1,17 @@
+WHAT TO DO:
+Die Requirements sind nicht alle messbar, sondern eher beschreibend.
+Keine Unterscheidung in funktionale und nicht-funktionale Requirements.
+
+- requirements messbar machen
+- in funktionale und nicht-funktionale Requirements unterscheiden
+- Struktur updaten (Pflichten- und Lastenheft separat)
+
+
+- requirements messbar 
+- nicht mehrere in eine Teilfunktionalität schreiben
+
+Current Anzeige: 
+- 50 - 500 einstellbar + Anzeige
+
+
+Traceability-Matrix sollte eigenes Dokument sein
