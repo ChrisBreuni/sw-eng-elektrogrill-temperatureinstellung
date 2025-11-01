@@ -22,9 +22,9 @@ aber noch nicht vollständig abgekühlt ist.
 
 # 2. Nicht-funktionale Requirements
 ## NF6.1 Programmiersprache
-- Das Projekt des Elektrogrills wird in der Programmiersprache Python entwickelt.
+- Zur Programmierung des Elektrogrills wird die Programmiersprache Python benutzt.
 ## NF6.2 Tools & Packages
-- Das Projekt benutzt das Python package tkinter, um das Interface bereitzustellen.
+- Für das Interface des Elektrogrills wird das Python package tkinter genutzt.
 
 
 # Lastenheft
