@@ -1,6 +1,7 @@
 # Lastenheft
-## F1. Ich sehe die eingestellte Wunschtemperatur und kann sie ändern.
-## F2. Ich sehe die aktuelle Temperatur des Elektrogrills.
-## F3. Ich sehe, ob der Elektrogrill bereits die Wunschtemperatur erreicht hat.
-## F4. Ich kann den Elektrogrill an- und ausschalten.
-## F5. Ich sehe, wenn der Elektrogrill zwar aus aber noch heiß ist.
+## F1.1. Der Elektrogrill zeigt die eingestellte Wunschtemperatur.
+## F1.2. Die Wunschtemperatur des Elektrogrills kann geändert werden.
+## F2. Der Elektrogrill zeigt seine aktuelle Temperatur an.
+## F3. Der Elektrogrill zeigt an, ob er bereits die Wunschtemperatur erreicht hat.
+## F4. Der Elektrogrill kann an- und ausgeschaltet werden.
+## F5. Der Elektrogrill zeigt an, wenn er noch heiß ist und bereits ausgeschaltet wurde.
