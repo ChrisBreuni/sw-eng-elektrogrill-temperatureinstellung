@@ -15,3 +15,16 @@ Current Anzeige:
 
 
 Traceability-Matrix sollte eigenes Dokument sein
+
+
+TO ADD?
+
+Module:
+TemperatureSensor
+HeaterControl
+
+Zustände:
+- AUS
+- AM_VORHEIZEN
+- TEMPERATUR_HALTEN
+- FEHLER
