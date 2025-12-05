@@ -1,6 +1,6 @@
 # Architektur
 ## Komponentendiagramm
-![Komponentendiagramm](KomponentenDiagramm.png)
+![Komponentendiagramm](docs/referenziert/KomponentenDiagramm.png)
 
 | **Komponente**       | **Requirements**   |
 |----------------------|--------------------|
