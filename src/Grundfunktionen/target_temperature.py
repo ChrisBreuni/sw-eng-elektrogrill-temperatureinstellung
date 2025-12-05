@@ -1,5 +1,5 @@
 """
-TargetTemperature.py
+target_temperature.py
 Basisklasse zur Verwaltung, Validierung und Anzeige der Wunschtemperatur.
 Zieltemperatur darf 0 sein oder im Bereich 50–500 °C liegen.
 """

@@ -19,7 +19,7 @@ die weitere Entwicklung des Elektrogrills sind.
 ## Software-Architektur
 ### A1. Modularer Aufbau
 
-- Trennung der Kernlogik in einzelne Python-Module (z. B. current_temperature.py, target_temperature.py, grill_controller.py).
+- Trennung der Kernlogik in einzelne Python-Module (z. B. **`current_temperature.py`**, **`target_temperature.py`**, **`grill_controller.py`**).
 
 - Jede Komponente übernimmt klar abgegrenzte Verantwortlichkeiten (Single Responsibility Principle).
 
@@ -29,7 +29,9 @@ die weitere Entwicklung des Elektrogrills sind.
 
 - GUI-Schicht (Tkinter) wird im Sprint 1 nicht implementiert, aber durch klare Schnittstellen vorbereitet.
 
-- Definierte Methoden, die später von der GUI aufgerufen werden können (z. B. set_target_temperature(), get_current_temperature()).
+- Definierte Methoden, die später von der GUI aufgerufen werden können, wie:
+  - `set_target_temperature()`
+  - `get_current_temperature()`
 
 ### A3. Temperature-Management-Kern
 
@@ -43,7 +45,7 @@ die weitere Entwicklung des Elektrogrills sind.
 
 - Architektur für die An-/Ausfunktion vorbereiten.
 
-- Separates Modul power_state.py, das den Betriebsstatus des Grills kapselt.
+- Separates Modul `power_state.py`, das den Betriebsstatus des Grills kapselt.
 
 - Einheitliche Schnittstelle, durch die später GUI und Logik kommunizieren.
 
@@ -52,27 +54,21 @@ die weitere Entwicklung des Elektrogrills sind.
 
 - Entwurf der Klassen:
 
-  - CurrentTemperature
-
-  - TargetTemperature
-
-  - GrillController
-
-  - PowerState
+  - `CurrentTemperature`, `TargetTemperature`, `GrillController`
 
 - Wichtige öffentliche Methoden:
 
-  - set_temperature(value)
-  - get_temperature()
-  - is_valid(value)
-  - is_target_reached()
-  - turn_on() / turn_off()
+  - `set_temperature(value)`
+  - `get_temperature()`
+  - `is_valid(value)`
+  - `is_target_reached()`
+  - `turn_on() / turn_off()`
 
 ### Defensive Design
 
 - Ungültige Temperaturwerte (<50 oder >500 °C) werden sofort abgefangen.
 - Nutzung privater Hilfsmethoden wie:
-  - _validate(value)
+  - `_validate(value)`
 
 ### Erweiterbarkeit
 
@@ -83,20 +79,20 @@ die weitere Entwicklung des Elektrogrills sind.
 ### Zustandsorientiertes Design
 
 - Einführung einfacher Statuswerte:
-  - ON
-  - OFF
-  - TARGET_REACHED 
-  - COOLING_DOWN
+  - `ON`
+  - `OFF`
+  - `TARGET_REACHED`
+  - `COOLING_DOWN`
 
 
 ## Implementierung
 ### Grundlegende Logik-Klassen
 
 - Umsetzung der Grundlogik in diesen Klassen:
-  - CurrentTemperature 
-  - TargetTemperature
-  - GrillController
-  - PowerState
+  - `CurrentTemperature` 
+  - `TargetTemperature`
+  - `GrillController`
+  - `PowerState`
 
 ### Validierungslogik
 
@@ -110,8 +106,7 @@ die weitere Entwicklung des Elektrogrills sind.
 
 ### Statusbestimmung der Zieltemperatur
 
-- Implementierung der Logik:
-target_reached = current >= target
+- Implementierung der Logik: `target_reached = current >= target`
 
 - Rückgabe als Boolean, später als UI-Anzeige nutzbar.
 

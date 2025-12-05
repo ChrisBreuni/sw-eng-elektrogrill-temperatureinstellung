@@ -1,5 +1,5 @@
 """
-CurrentTemperature.py
+current_temperature.py
 Basisklasse zur Erfassung, Validierung und Anzeige der aktuellen Temperatur.
 """
 

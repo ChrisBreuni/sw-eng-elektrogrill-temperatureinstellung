@@ -1,12 +1,12 @@
 """
-TargetTemperatureController.py
+grill_controller.py
 Controller-Klasse zur Steuerung der Zieltemperatur-Logik.
 Verknüpft CurrentTemperature und TargetTemperature und liefert klare Aktionen
 für Regelung, Logging oder UI-Logik.
 """
 
-from TargetTemperature import TargetTemperature
-from CurrentTemperature import CurrentTemperature
+from target_temperature import TargetTemperature
+from current_temperature import CurrentTemperature
 
 
 class TargetTemperatureController:
