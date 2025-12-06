@@ -145,4 +145,4 @@ Die Tests in Sprint 2 konzentrieren sich auf:
 - Konsistentes Temperatur-Update  
 
 Alle Testfälle wurden erfolgreich abgeschlossen.  
-Die Verknüpfungen erscheinen in [**TraceabilityMatrix2.md**](docs/Sprint 2/Traceability-Matrix2.md).
+Die Verknüpfungen erscheinen in [**TraceabilityMatrix2.md**](../Traceability-Matrix2.md).
