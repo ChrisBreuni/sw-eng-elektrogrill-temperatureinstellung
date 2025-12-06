@@ -147,3 +147,118 @@ Voraussichtliche Struktur (Frames):
 ## I5. Keine Business-Logik in der GUI
 - GUI darf keine Temperaturen berechnen.
 - Validierungen und Statuslogik bleiben vollständig in der Model-Schicht.
+
+# Vergleich Architektur & Design vs. Implementierung
+
+In Sprint 2 wurde der **GUI-Entwurf** mit Tkinter als Zielvorbereitung umgesetzt. Verglichen wurden:
+- Entwurfsziele (Layout, Komponenten, Schnittstellen)
+- Architekturziele (Trennung Model – GUI, klare Zugriffspunkte)
+- Implementierte Strukturen  
+- Durchgeführte Tests
+
+## Festgestellte Abweichungen
+
+### **A1 – GUI-Komponentenstruktur musste erweitert werden**
+**Geplant:**  
+- Nur grundlegende GUI-Komponenten als Entwurf  
+- Einfaches Layouting
+
+**Implementiert:**  
+- Erweiterte Struktur für Temperaturfelder  
+- Dynamische Aktivierung/Deaktivierung von Buttons  
+- Frühe Entscheidung für Grid-Layout
+
+**Abweichung:**  
+GUI-Komplexität wurde leicht erhöht, um Testbarkeit und Klarheit zu verbessern.
+
+---
+
+### **A2 – Schnittstellen zu Model-Modulen präziser umgesetzt**
+**Geplant:**  
+- Nutzung einfacher Getter/Setter
+
+**Implementiert:**  
+- Zusätzliche Validierungslogik direkt im GUI-Eingabefeld  
+- Fehlerbehandlung über Messagebox
+
+**Abweichung:**  
+GUI übernimmt mehr Verantwortung für Validierung als ursprünglich geplant.
+
+---
+
+### **A3 – Statuslogik stärker in GUI integriert**
+**Geplant:**  
+- Statusanzeigen werden erst in Sprint 3 vollständig UI-basiert umgesetzt
+
+**Implementiert:**  
+- Anzeige aktualisiert sich bereits auf Temperaturänderungen  
+- Start-Button abhängig vom Zieltemperatur-Status
+
+**Abweichung:**  
+Vorverlagerung von Anzeige-Logik von Sprint 3 → Sprint 2.
+
+---
+
+# Dokumentation der Abweichungen
+
+Abweichungen wurden in den Design- und Testabschnitten markiert:
+- GUI übernimmt nun zusätzliche Validierungsschritte  
+- GUI enthält bereits fundamental logische Statusdarstellungen  
+- Button-Zustandslogik wurde erweitert
+
+Diese Punkte wurden zusätzlich in der [Tracability-Matrix2.md](../Traceability-Matrix2.md) ergänzt.
+
+---
+
+# Sicherstellung der Konsistenz aller Dokumente
+
+Folgende Sprint-2-Dokumente wurden vollständig synchronisiert:
+- **Design2.md**  
+- **Implementierung2.md**  
+- **Traceability-Matrix2.md**  
+- **Test2.md**  
+- Die Architekturabbildung inkl. PlantUML-Klassendiagramm  
+
+Alle enthalten jetzt identische Klassennamen, identische GUI-Komponentenbezeichnungen und konsistente Schnittstellen.
+
+---
+
+# Erkenntnisse für Sprint 3 / spätere Änderungen
+
+## **E1 – GUI benötigt klarere MVC/Model-View-Schnittstellen**
+Die Interaktion zwischen GUI und Modell könnte modularer werden.  
+Sprint 3 sollte daher:
+- ein Controller-Modul einführen  
+- Events statt direkter Funktionsaufrufe verwenden  
+
+## **E2 – Temperatur-Updates sollten event-basiert erfolgen**
+Bisher: GUI ruft Werte aktiv ab  
+Geplant für Sprint 3: automatisches Update durch Timer/Callback
+
+## **E3 – Statusanzeigen sollten in eigenes GUI-Widget ausgelagert werden**
+Die Zustandsanzeige ist aktuell Teil der Hauptoberfläche.  
+Später sinnvoll:
+- eigenes Status-Panel für "Heating", "Target Reached", "Cooling Down"
+
+## **E4 – Separation von Validierungslogik**
+Derzeit existiert Validierung in Model **und** GUI.  
+Sprint 3 sollte eine einheitliche Validierungsstrategie implementieren.
+
+
+# Baseline
+
+## Baseline Stand Sprint 2
+
+### Code abgeschlossen für Sprint 2
+- GUI-Prototyp erstellt (ohne vollständige Funktionalität)  
+- Buttons, Labels, Frames und Eingabefelder gestaltet  
+- Verbindung zu Temperature-Modellen strukturell vorbereitet  
+
+### Tests bestanden
+- Alle 6 Testfälle aus Sprint 2 erfolgreich  
+- Keine kritischen Fehler  
+
+### Architektur konsistent
+- GUI-Schicht klar vom Models-Schicht getrennt  
+- Controller-Logik für Sprint 3 vorgesehen
+
