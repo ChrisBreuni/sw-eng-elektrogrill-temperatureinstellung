@@ -42,24 +42,13 @@ Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive i
 | NF6.5 | Robustheit / Fehlerresistenz | **GrillGUI**, **GrillController** | Fehlerbehandlung für ungültige Eingaben | Test M1: Ungültige Eingaben werden abgefangen |
 | NF6.6 | Konsistente Schnittstellen | Alle Klassen | Einheitliche Methoden-Signaturen | Test: Schnittstellenkonsistenz |
 
-### Code-Mappings Sprint 2
+---
 
-| **GUI-Element / Requirement** | **Datei** | **Klasse** | **Methode(n)** |
-|------|-------|----------|--------|
-| **F1.3** | `grill_gui.py` | `GrillGUI` | `_validate_input()` |
-| **F6** | `grill_gui.py` | `GrillGUI` | `setup_gui()`, `setup_temperature_frame()`, `setup_status_frame()`, `setup_power_frame()` |
-| **F7** | `grill_gui.py` | `GrillGUI` | Error-Label, Messagebox-Integration |
-| **NF6.2** | `grill_gui.py` | `GrillGUI` | Tkinter-Imports und Verwendung |
-| **NF6.3** | `grill_gui.py` | `GrillGUI` | Separate Klasse-Struktur |
-| **NF6.4** | `grill_gui.py`, `grill_controller.py` | `GrillGUI`, `GrillController` | Klare Methoden-Schnittstellen |
-| **NF6.5** | `grill_gui.py` | `GrillGUI` | `increase_target_temperature()`, `decrease_target_temperature()`, `set_target_temperature_from_entry()` |
-| **NF6.6** | Alle Klassen | - | Einheitliche Method Naming Conventions |
-
-### Traceability Sprint 2 Details
+## Detaillierte Requirements Sprint 2
 
 | Requirement ID | Requirement Beschreibung | Design-Element / Klasse | Implementierungsmethode | Unit Test / Testfall |
 |----------------|-------------------------|------------------------|------------------------|-----------------------|
-| F-GUI1 | Strukturierte Darstellung der Temperaturen (aktuell, Wunsch, Zielstatus) | **GrillGUI**, **TemperatureFrame**, Labels | `update_display()`, Labels aktualisieren | Test M2: Label zeigen richtige Werte |
+| F-GUI1 | Strukturierte Darstellung der Temperaturen (aktuell, Wunsch, Zielstatus) | **GrillGUI**, **TemperatureFrame**, Labels | `update_display()`, Labels aktualisieren | Test M2: Labels zeigen richtige Werte |
 | F-GUI2 | Änderung der Wunschtemperatur über Buttons oder Eingabefeld | **GrillGUI**, Buttons (+ / –), Eingabefeld | `increase_target_temperature()`, `decrease_target_temperature()`, `set_target_temperature()` | Test M1, I1: Zieltemperatur verändert sich korrekt |
 | F-GUI3 | Anzeige des Grillstatus (An/Aus, Resttemperatur) | **GrillGUI**, **PowerFrame**, **StatusFrame**, Labels | `toggle_power()`, `refresh_status_indicators()` | Test M3, I2: An/Aus-Status und Restwärme korrekt |
 | F-GUI4 | Nutzerinteraktionen (Buttons, Toggle, Eingaben) | **GrillGUI**, Buttons, Event-Handler | Event-Handler Methoden für Buttons | Test: Button-Events funktionieren |

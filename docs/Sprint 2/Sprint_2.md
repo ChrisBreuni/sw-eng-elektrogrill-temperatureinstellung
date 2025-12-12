@@ -2,9 +2,10 @@
 
 ### Schritt 1: Sprint Planning
 
-Zu Beginn des zweiten Sprints habe ich die relevanten Anforderungen (Requirements) ausgewählt. 
-Der Fokus lag dabei auf der Implementierung der grafischen Benutzeroberfläche, die für die 
-Interaktion mit dem Elektrogrill essenziell ist. Konkret wurden folgende Kernfunktionen 
+Zu Beginn des zweiten Sprints habe ich die relevanten Requirements gewählt. Da der Fokus dabei 
+auf der Implementierung der grafischen Benutzeroberfläche lag, die für die 
+Interaktion mit dem Elektrogrill essenziell ist, habe ich mich dazu entschieden, Unterrequirements
+namens F-GUIx zu erstellen. Konkret wurden folgende Kernfunktionen 
 identifiziert und berücksichtigt:
 
 - Strukturierte Darstellung der Temperaturen
