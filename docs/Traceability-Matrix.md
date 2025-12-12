@@ -4,9 +4,9 @@
 
 Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive ihren Tests aus den vergangen 3 Sprints:
 
-- [Traceability-Matrix Sprint 1](../Traceability-Matrix1.md)
-- [Traceability-Matrix Sprint 2](../Traceability-Matrix2.md)
-- [Traceability-Matrix Sprint 3](../Traceability-Matrix3.md)
+- [Traceability-Matrix Sprint 1](docs/Sprint 1/Traceability-Matrix1.md)
+- [Traceability-Matrix Sprint 2](docs/Sprint 2/Traceability-Matrix2.md)
+- [Traceability-Matrix Sprint 3](docs/Sprint 3/Traceability-Matrix3.md)
 
 ---
 
