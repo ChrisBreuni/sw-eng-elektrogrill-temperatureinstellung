@@ -1,264 +1,164 @@
-# Sprint 2 – GUI-Entwurf (Tkinter)
+# Sprint 2
 
-## Ziel des Sprints
-1. Entwurf der Benutzeroberfläche für die Temperatursteuerung des Elektrogrills mittels **Tkinter**.  
-2. Definition der GUI-Struktur (Layouts, Widgets, Interaktionslogik).  
-3. Verbindung der GUI-Schicht mit der Kernlogik aus Sprint 1 (ohne vollständige Funktionalität).  
-4. Sicherstellen, dass alle UI-Elemente den funktionalen Anforderungen entsprechen.
+### Schritt 1: Sprint Planning
 
----
+Zu Beginn des zweiten Sprints habe ich die relevanten Anforderungen (Requirements) ausgewählt. 
+Der Fokus lag dabei auf der Implementierung der grafischen Benutzeroberfläche, die für die 
+Interaktion mit dem Elektrogrill essenziell ist. Konkret wurden folgende Kernfunktionen 
+identifiziert und berücksichtigt:
 
-# Erweiterte funktionale Requirements für die GUI
+- Strukturierte Darstellung der Temperaturen
+- Änderung der Wunschtemperatur über GUI-Elemente
+- Anzeige des Grillstatus
+- Nutzerinteraktionen (Buttons, Eingabefelder)
+- Live-Aktualisierung der Anzeigen
 
-## F-GUI1: Strukturierte Darstellung der Temperaturen
-- Die GUI zeigt klar getrennt:
-  - **Aktuelle Temperatur**
-  - **Wunschtemperatur (Zieltemperatur)**
-  - **Zieltemperaturstatus**
-- Beide Anzeigen müssen optisch voneinander unterscheidbar sein.
+Bei der Auswahl der Anforderungen wurde bewusst auf eine realistische und zielgerichtete Planung 
+geachtet. Mit dem GUI-Entwurf wird die Basis für die Benutzerinteraktion geschaffen und die 
+bisherige reine Logik-Schicht mit der Präsentationsschicht verbunden. Sprint 3 kann dann für 
+weitere Funktionen und zur Verfeinerung genutzt werden.
 
-## F-GUI2: Änderung der Wunschtemperatur
-- Die GUI enthält Steuerelemente zur Änderung der Zieltemperatur:
-  - Buttons (*+* / *–*)
-  - oder alternativ ein Eingabefeld mit *Set*-Button.
-- Werte außerhalb von **50–500 °C** sind nicht zulässig.
+**Requirements:**
 
-## F-GUI3: Anzeige des Grillstatus
-- Die GUI zeigt klar sichtbar:
-  - **An/Aus-Status**
-  - **Resttemperaturstatus** (Grill aus, aber > 50 °C)
+- Req. F1.3: Validierung der Eingabewerte
+- Req. F6: GUI-Interaktion
+- Req. F7: Fehleranzeigen im GUI
+- Req. NF6.2: Tools & Packages (Tkinter)
+- Req. NF6.3: Modularität (gui_main.py)
+- Req. NF6.4: Erweiterbarkeit
+- Req. NF6.5: Robustheit / Fehlerresistenz
+- Req. NF6.6: Konsistente Schnittstellen
 
-## F-GUI4: Nutzerinteraktionen
-- Benutzer*innen müssen folgende Aktionen durchführen können:
-  - Grill ein-/ausschalten
-  - Wunschtemperatur setzen/ändern
-  - Systemzustände visuell erkennen
+**Sprint-Zeitraum:** 01.12.2025 - 15.12.2025
 
-## F-GUI5: Live-Anzeige
-- Die GUI aktualisiert alle Anzeigen in Intervallen (z. B. alle 200–500 ms).
-- Die Aktualisierung blockiert die GUI nicht (Tkinter `.after()`).
+**Sprintziel:**
 
----
-
-# Nicht-funktionale Requirements (GUI-bezogen)
-
-## NF-GUI1: Übersichtlichkeit
-- Die Benutzeroberfläche muss klar gegliedert und intuitiv verständlich sein.
-
-## NF-GUI2: Responsives Verhalten
-- GUI-Elemente passen sich bei Größenänderung des Fensters an.
-
-## NF-GUI3: Fehlertoleranz
-- Ungültige Benutzereingaben (z. B. außerhalb des Temperaturbereichs) müssen abgefangen werden.
+1. Entwurf der Benutzeroberfläche für die Temperatursteuerung des Elektrogrills mittels **Tkinter**
+2. Definition der GUI-Struktur (Layouts, Widgets, Interaktionslogik)
+3. Verbindung der GUI-Schicht mit der Kernlogik aus Sprint 1
+4. Sicherstellen, dass alle UI-Elemente den funktionalen Anforderungen entsprechen
 
 ---
 
-# Architektur (Sprint 2)
+### Schritt 2: Architektur
 
-## A1. Drei-Schicht-Struktur
-- **Model** (fertig aus Sprint 1)  
-- **Controller** (Teil von GrillController, Erweiterung für UI-Interaktionen)  
-- **View (GUI)** – wird in Sprint 2 erstellt
+Nach der Anforderungsanalyse beschäftigte ich mich mit der Softwarearchitektur für die GUI-Integration. 
+Ziel war es, eine geeignete strukturelle Grundlage für die Benutzeroberfläche zu schaffen und diese 
+sauber mit der bestehenden Logik-Schicht zu verbinden.
 
-## A2. GUI-Schicht als eigene Klasse
-- Neue Klasse:
-  - **`GrillGUI`**  
-- Verantwortlichkeiten:
-  - Aufbau des Tkinter-Fensters
-  - Layout-Management (Frames, Grid)
-  - visuelle Darstellung der Model-Daten
-  - Weiterleitung von Benutzeraktionen an den Controller
+Basierend auf den funktionalen Anforderungen und den nicht-funktionalen Anforderungen wie 
+Übersichtlichkeit und Responsivität fiel die Wahl auf eine **Drei-Schicht-Struktur (MVC)** 
+mit klarer Separation of Concerns.
 
-## A3. Lose Kopplung
-- Das GUI fragt nur über den **Controller** nach Daten ab.
-- Keine direkte Änderung der Model-Schicht durch die GUI.
+**A1. Drei-Schicht-Struktur:** Model (fertig aus Sprint 1), Controller (Teil von GrillController, Erweiterung für UI-Interaktionen), View (GUI) – wird in Sprint 2 erstellt.
 
-## A4. Ereignissteuerung
-- Periodische Aktualisierung mit Tkinter:
-  - **`root.after(interval, callback)`**
-- Keine while-Schleifen → GUI bleibt reaktionsfähig.
+**A2. GUI-Schicht als eigene Klasse:** Neue Klasse `GrillGUI` mit Verantwortlichkeiten: Aufbau des Tkinter-Fensters, Layout-Management (Frames, Grid), visuelle Darstellung der Model-Daten, Weiterleitung von Benutzeraktionen an den Controller.
+
+**A3. Lose Kopplung:** Die GUI fragt nur über den Controller nach Daten ab. Keine direkte Änderung der Model-Schicht durch die GUI.
+
+**A4. Ereignissteuerung:** Periodische Aktualisierung mit Tkinter: `root.after(interval, callback)`. Keine while-Schleifen → GUI bleibt reaktionsfähig.
+
+[Architektur](../Architektur.md)
 
 ---
 
-# Design (Sprint 2)
+### Schritt 3: Design
 
-## D1. Layoutstruktur
-Voraussichtliche Struktur (Frames):
+Im Anschluss an die Architekturdefinition wurde der Entwurfsprozess auf GUI-Ebene fortgeführt. 
+Ziel war es, die zentralen GUI-Komponenten und deren Layout zu identifizieren sowie die 
+Interaktionslogik anhand geeigneter Strukturen zu modellieren.
 
-- **HeaderFrame**  
-  - Titel des Systems
+**Layoutstruktur:** HeaderFrame (Titel des Systems), TemperatureFrame (Anzeige aktuelle Temperatur, Wunschtemperatur, Buttons + / –), StatusFrame (Zieltemperaturstatus, Resttemperaturstatus), PowerFrame (An-/Aus-Button, Statusanzeige).
 
-- **TemperatureFrame**  
-  - Anzeige: aktuelle Temperatur  
-  - Anzeige: Wunschtemperatur  
-  - Buttons: + / – für Wunschtemperatur  
+**Zentrale Widgets:** Label für Temperaturanzeigen, Button für Interaktion, Frame zur Strukturierung, Optional Canvas oder farbige Labels für Statusindikatoren.
 
-- **StatusFrame**  
-  - Zieltemperaturstatus (*Erreicht / Nicht erreicht*)  
-  - Resttemperaturstatus (*Grill heiß*)  
+**GUI-Methoden:** `update_display()` aktualisiert alle Anzeigen regelmäßig über `.after()`. Weitere Methoden: `increase_target_temperature()`, `decrease_target_temperature()`, `toggle_power()`, `refresh_status_indicators()`.
 
-- **PowerFrame**  
-  - Button: *An / Aus*  
-  - Statusanzeige  
+**Keine Business-Logik in der GUI:** GUI darf keine Temperaturen berechnen. Validierungen und Statuslogik bleiben vollständig in der Model-Schicht.
 
-## D2. Zentrale Widgets
-- **`Label`** für Temperaturanzeigen  
-- **`Button`** für Interaktion  
-- **`Frame`** zur Strukturierung  
-- Optional: **`Canvas`** oder farbige Labels für Statusindikatoren  
-
-## D3. GUI-Methoden
-- **`update_display()`**  
-  Aktualisiert alle Anzeigen, wird regelmäßig über `.after()` aufgerufen.
-
-- **`increase_target_temperature()`**  
-- **`decrease_target_temperature()`**  
-- **`toggle_power()`**  
-- **`refresh_status_indicators()`**
+[Design](Design2.md)
 
 ---
 
-# Implementierung (Sprint 2)
+### Schritt 4: Implementierung
 
-## I1. Klasse GrillGUI
-- Implementieren eines Tkinter-Fensters mit:
-  - Temperaturanzeigen
-  - Buttons
-  - Statusanzeigen
-  - Power-Toggle
+Nach Abschluss der Designphase begann die Umsetzung der Benutzeroberfläche gemäß der zuvor 
+definierten Architektur- und Entwurfsdokumente. Dabei wurde iterativ und testgetrieben vorgegangen, 
+um frühzeitig funktionale Korrektheit und Konsistenz sicherzustellen.
 
-## I2. GUI–Controller-Verbindung
-- GrillGUI erhält eine Instanz von **`GrillController`**.
-- Alle GUI-Ereignisse delegieren an Controller-Methoden.
+Zunächst wurde die neue Klasse `GrillGUI` implementiert mit allen geplanten Frames und Widgets. 
+Der Fokus lag auf der sauberen Umsetzung der GUI-Struktur und der klaren Trennung zwischen 
+Präsentation und Logik.
 
-## I3. Aktualisierungslogik
-- Implementieren der Methode:
-  - **`update_display()`**, Aufruf alle 200–500 ms
-- Aktualisiert:
-  - Temperaturen
-  - An/Aus-Status
-  - Zieltemperaturstatus
-  - Restwärmestatus
+**Klasse GrillGUI:** Implementierung eines Tkinter-Fensters mit Temperaturanzeigen, Buttons, Statusanzeigen, Power-Toggle.
 
-## I4. Eingabevalidierung
-- Nur gültige Temperaturwerte werden übernommen.
-- Ungültige Werte lösen Popup oder Fehlermeldung in der GUI aus.
+**GUI–Controller-Verbindung:** GrillGUI erhält eine Instanz von `GrillController`. Alle GUI-Ereignisse delegieren an Controller-Methoden.
 
-## I5. Keine Business-Logik in der GUI
-- GUI darf keine Temperaturen berechnen.
-- Validierungen und Statuslogik bleiben vollständig in der Model-Schicht.
+**Aktualisierungslogik:** Implementierung der Methode `update_display()`, Aufruf alle 200–500 ms. Aktualisiert: Temperaturen, An/Aus-Status, Zieltemperaturstatus, Restwärmestatus.
 
-# Vergleich Architektur & Design vs. Implementierung
+**Eingabevalidierung:** Nur gültige Temperaturwerte werden übernommen. Ungültige Werte lösen Popup oder Fehlermeldung aus.
 
-In Sprint 2 wurde der **GUI-Entwurf** mit Tkinter als Zielvorbereitung umgesetzt. Verglichen wurden:
-- Entwurfsziele (Layout, Komponenten, Schnittstellen)
-- Architekturziele (Trennung Model – GUI, klare Zugriffspunkte)
-- Implementierte Strukturen  
-- Durchgeführte Tests
+**Kontinuierliche Tests:** Bereits während der Implementierung wurden manuelle Tests durchgeführt – sowohl über die GUI als auch über die Kommandozeile.
 
-## Festgestellte Abweichungen
-
-### **A1 – GUI-Komponentenstruktur musste erweitert werden**
-**Geplant:**  
-- Nur grundlegende GUI-Komponenten als Entwurf  
-- Einfaches Layouting
-
-**Implementiert:**  
-- Erweiterte Struktur für Temperaturfelder  
-- Dynamische Aktivierung/Deaktivierung von Buttons  
-- Frühe Entscheidung für Grid-Layout
-
-**Abweichung:**  
-GUI-Komplexität wurde leicht erhöht, um Testbarkeit und Klarheit zu verbessern.
+[Implementierung](Implementierung2.md)
 
 ---
 
-### **A2 – Schnittstellen zu Model-Modulen präziser umgesetzt**
-**Geplant:**  
-- Nutzung einfacher Getter/Setter
+### Schritt 5: Test
 
-**Implementiert:**  
-- Zusätzliche Validierungslogik direkt im GUI-Eingabefeld  
-- Fehlerbehandlung über Messagebox
+Nach Abschluss der Implementierung wurden alle während der Entwicklung durchgeführten Tests als 
+formale Testfälle dokumentiert. Darauf aufbauend wurden das übergeordnete Ziel des Testens, die 
+geplanten Testarten sowie deren Abdeckung definiert und eine Teststrategie festgelegt.
 
-**Abweichung:**  
-GUI übernimmt mehr Verantwortung für Validierung als ursprünglich geplant.
+Um die interne Codequalität sicherzustellen, wurde ein Codereview durchgeführt. Der Code wurde 
+basierend auf den Ergebnissen überarbeitet. Anschließend wurden gezielt weitere Testfälle ergänzt, 
+um die vollständige Abdeckung aller Hauptanforderungen sicherzustellen.
 
----
-
-### **A3 – Statuslogik stärker in GUI integriert**
-**Geplant:**  
-- Statusanzeigen werden erst in Sprint 3 vollständig UI-basiert umgesetzt
-
-**Implementiert:**  
-- Anzeige aktualisiert sich bereits auf Temperaturänderungen  
-- Start-Button abhängig vom Zieltemperatur-Status
-
-**Abweichung:**  
-Vorverlagerung von Anzeige-Logik von Sprint 3 → Sprint 2.
+[Test](Test2.md)
 
 ---
 
-# Dokumentation der Abweichungen
+### Schritt 6: Retrospektive
 
-Abweichungen wurden in den Design- und Testabschnitten markiert:
-- GUI übernimmt nun zusätzliche Validierungsschritte  
-- GUI enthält bereits fundamental logische Statusdarstellungen  
-- Button-Zustandslogik wurde erweitert
+**Was lief gut?**
 
-Diese Punkte wurden zusätzlich in der [Tracability-Matrix2.md](../Traceability-Matrix2.md) ergänzt.
+- Alle Requirements wurden umgesetzt
+- Klare Fokussierung auf GUI-Integration
+- Gute Integration mit bestehender Logik-Schicht aus Sprint 1
+- Tests wurden bereits während der Implementierung durchgeführt, was die Qualität verbesserte
+- Die Dokumentation wurde konsequent aktualisiert
+
+**Was lief nicht so gut?**
+
+- Aus der Design-Phase wurden nicht alle Aspekte 1:1 in der Implementierung umgesetzt
+- Einige GUI-Komponenten erwiesen sich als komplexer als ursprünglich geplant
+- Validierungslogik teilweise doppelt vorhanden (GUI und Model)
+
+**Was werde ich im nächsten Sprint anders machen?**
+
+- Die Design-Phase noch gründlicher durchführen, um spätere Anpassungen zu vermeiden
+- Einheitliche Validierungsstrategie etablieren
+- Früher mit Prototyping beginnen
+
+**Lessons Learned:**
+
+- Funktionierende Abläufe und klare Strukturen erleichtern die Arbeit erheblich
+- Die kontinuierliche Dokumentation und Aktualisierung während des Sprints ist entscheidend
+- Die frühzeitige Identifikation von Fehlern während der Implementierung spart Zeit
+- GUI-Tests sollten strukturierter angegangen werden
+- Lose Kopplung zwischen GUI und Controller zahlt sich aus
 
 ---
 
-# Sicherstellung der Konsistenz aller Dokumente
+## Abweichungen
 
-Folgende Sprint-2-Dokumente wurden vollständig synchronisiert:
-- **Design2.md**  
-- **Implementierung2.md**  
-- **Traceability-Matrix2.md**  
-- **Test2.md**  
-- Die Architekturabbildung inkl. PlantUML-Klassendiagramm  
+**Vergleich von Software-Architektur und -Design mit der tatsächlichen Implementierung:**
 
-Alle enthalten jetzt identische Klassennamen, identische GUI-Komponentenbezeichnungen und konsistente Schnittstellen.
-
----
-
-# Erkenntnisse für Sprint 3 / spätere Änderungen
-
-## **E1 – GUI benötigt klarere MVC/Model-View-Schnittstellen**
-Die Interaktion zwischen GUI und Modell könnte modularer werden.  
-Sprint 3 sollte daher:
-- ein Controller-Modul einführen  
-- Events statt direkter Funktionsaufrufe verwenden  
-
-## **E2 – Temperatur-Updates sollten event-basiert erfolgen**
-Bisher: GUI ruft Werte aktiv ab  
-Geplant für Sprint 3: automatisches Update durch Timer/Callback
-
-## **E3 – Statusanzeigen sollten in eigenes GUI-Widget ausgelagert werden**
-Die Zustandsanzeige ist aktuell Teil der Hauptoberfläche.  
-Später sinnvoll:
-- eigenes Status-Panel für "Heating", "Target Reached", "Cooling Down"
-
-## **E4 – Separation von Validierungslogik**
-Derzeit existiert Validierung in Model **und** GUI.  
-Sprint 3 sollte eine einheitliche Validierungsstrategie implementieren.
-
-
-# Baseline
-
-## Baseline Stand Sprint 2
-
-### Code abgeschlossen für Sprint 2
-- GUI-Prototyp erstellt (ohne vollständige Funktionalität)  
-- Buttons, Labels, Frames und Eingabefelder gestaltet  
-- Verbindung zu Temperature-Modellen strukturell vorbereitet  
-
-### Tests bestanden
-- Alle 6 Testfälle aus Sprint 2 erfolgreich  
-- Keine kritischen Fehler  
-
-### Architektur konsistent
-- GUI-Schicht klar vom Models-Schicht getrennt  
-- Controller-Logik für Sprint 3 vorgesehen
-
+| Bereich | Geplant | Implementiert | Abweichung | Grund | Status |
+|---------|---------|--------------|-----------|-------|--------|
+| **Schichtenmodell (GUI - Controller - Model)** | Strikte 3-Schichten-Struktur: GUI ↔ Controller ↔ Model mit definierten Schnittstellen | GUI ↔ Controller ↔ Model korrekt implementiert; Schnittstellen als Callbacks realisiert | ✅ Keine Abweichung | Saubere Architektur war erfolgreich | ✅ Umgesetzt |
+| **GUI-Komponentenstruktur** | Grundlegende GUI-Komponenten als Entwurf mit einfachem Layouting | Erweiterte Struktur mit dynamischer Aktivierung/Deaktivierung von Buttons, Grid-Layout | ⚠️ Umsetzung erweitert | Testbarkeit und Klarheit verbessern | ✅ Ausreichend |
+| **Update-Mechanismus** | Periodische Aktualisierung mit `.after()` | `update_display()` wird regelmäßig mit `root.after()` aufgerufen | ✅ Keine Abweichung | Ereignissteuerung funktioniert wie geplant | ✅ Umgesetzt |
+| **Validierungslogik** | Nur gültige Temperaturwerte werden übernommen | Zusätzliche Validierungslogik direkt in GUI-Eingabefeld neben Model-Validierung | ⚠️ GUI übernimmt mehr als geplant | Vereinfachung und schnellere Fehlertoleranz | ⚠️ Zu refaktorisieren in Sprint 3 |
+| **Statusanzeigen** | Erst vollständig in Sprint 3 | Bereits funktionale Statusdarstellungen implementiert | ⚠️ Vorverlagerung von Sprint 3 | Technisch sinnvoll und zeiteffizient | ✅ Ausreichend |
+| **Button-Zustandslogik** | Einfache Enable/Disable-Logik | Erweitert mit kontextabhängigen Zustandsübergängen | ⚠️ Umsetzung erweitert | Bessere Benutzerführung | ✅ Ausreichend |
