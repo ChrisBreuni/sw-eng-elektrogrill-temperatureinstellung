@@ -136,6 +136,18 @@ Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive i
 
 ---
 
+## Performance-Metriken (F7)
+
+| **Messung** | **Ziel** | **Erreicht** | **Status** | **Relevante Requirements** |
+|-------------|----------|--------------|-----------|---------------------------|
+| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden | F7, NF-GUI5 |
+| 95% Perzentil | <500ms | 412ms | ✅ Bestanden | F7, NF-GUI5 |
+| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden | F7, NF-GUI5 |
+| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden | F7, NF-GUI5 |
+
+---
+
+
 ## Zustandsübergängs-Matrix (F8)
 
 | **Von Zustand** | **Nach Zustand** | **Bedingung** | **Implementiert in** | **Abhängige Requirements** |
@@ -149,15 +161,5 @@ Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive i
 | * | ERROR | Sensorfehler | `GrillStateMachine.transition_to()` | F6.2, F6.3, F8 |
 | ERROR | * | Fehler behoben | `GrillStateMachine.transition_to()` | F6.4, F8 |
 
----
-
-## Performance-Metriken (F7)
-
-| **Messung** | **Ziel** | **Erreicht** | **Status** | **Relevante Requirements** |
-|-------------|----------|--------------|-----------|---------------------------|
-| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden | F7, NF-GUI5 |
-| 95% Perzentil | <500ms | 412ms | ✅ Bestanden | F7, NF-GUI5 |
-| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden | F7, NF-GUI5 |
-| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden | F7, NF-GUI5 |
 
 
