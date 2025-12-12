@@ -47,6 +47,10 @@
 - Fehleranzeigen müssen eindeutig sein, z. B.:
   - „Ungültiger Temperaturwert“
   - „Bitte eine Zahl eingeben“
+## F8 Zustandslogik
+- Das System implementiert einen deterministischen Zustandsautomaten.
+- Alle Zustandsübergänge sind explizit definiert und validiert.
+- Es sind keine inkonsistenten Zustände möglich.
 
 # 2. Nicht-funktionale Requirements
 ## NF6.1 Programmiersprache

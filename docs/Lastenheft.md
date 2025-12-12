@@ -15,3 +15,4 @@
 ### F6.2 Das System zeigt an, wenn ein Sensorfehler vorliegt.
 ## F7 Alle Anzeigen des Elektrogrills aktualisieren sich zeitnah.
 ### F7.1. Der Benutzer erkennt Änderungen ohne merkbare Verzögerung.
+## F8. Der Elektrogrill folgt einer deterministischen Zustandslogik
