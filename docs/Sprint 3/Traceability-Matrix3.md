@@ -15,52 +15,14 @@
 | NF6.6 | Konsistente Schnittstellen | Alle refaktorierten Klassen | Einheitliche Methoden-Signaturen | Alle Tests: Schnittstellenkonsistenz |
 
 ---
+## Performance-Metriken (F7)
 
-## Code-Mappings
-
-### Validator (Neue Klasse)
-
-| **Methode** | **Requirement** | **Beschreibung** |
-|-------------|-----------------|------------------|
-| `validate_temperature(value)` | F6.1 | Validiert Temperaturwerte, gibt `(is_valid, error_message)` zurück |
-| `is_in_range(value, min, max)` | F6.1 | Prüft, ob Wert im Bereich liegt |
-| `is_numeric(value)` | F6.1 | Prüft, ob Wert numerisch ist |
-
-### ErrorHandler (Neue Klasse)
-
-| **Methode** | **Requirement** | **Beschreibung** |
-|-------------|-----------------|------------------|
-| `handle_sensor_error()` | F6.2, F6.3 | Behandelt Sensorfehler, setzt ERROR-Zustand |
-| `handle_invalid_input(message)` | F6.1 | Behandelt ungültige Eingaben |
-| `clear_error()` | F6.4 | Löscht aktuelle Fehleranzeige |
-| `get_current_error()` | F2.1, F6.1 | Liefert aktuellen Fehlertext |
-| `has_error()` | F6.3 | Prüft, ob aktuell ein Fehler vorliegt |
-
-### GrillStateMachine (Neue Klasse)
-
-| **Methode** | **Requirement** | **Beschreibung** |
-|-------------|-----------------|------------------|
-| `transition_to(new_state)` | F8 | Führt Zustandsübergang durch |
-| `get_current_state()` | F8 | Liefert aktuellen Zustand |
-| `is_valid_transition(from, to)` | F8 | Validiert Zustandsübergang |
-| `get_possible_transitions()` | F8 | Liefert mögliche Übergänge |
-
-### GrillController (Refaktoriert)
-
-| **Methode** | **Requirement** | **Beschreibung** |
-|-------------|-----------------|------------------|
-| `set_target_temperature(value)` | F6.1 | Nutzt Validator für Eingabeprüfung |
-| `get_current_temperature()` | F2.1, F6.2 | Prüft auf Sensorfehler |
-| `_update_status()` | F8 | Nutzt GrillStateMachine für Zustandswechsel |
-
-### GrillGUI (Refaktoriert)
-
-| **Methode** | **Requirement** | **Beschreibung** |
-|-------------|-----------------|------------------|
-| `update_display()` | F7 | Optimiert für <500ms Updates |
-| `display_error(message)` | F6.1, F6.2 | Zeigt Fehler über ErrorHandler an |
-| `clear_error_display()` | F6.4 | Löscht Fehleranzeige |
-| `_validate_input(value)` | F6.1 | Delegiert an Validator |
+| **Messung** | **Ziel** | **Erreicht** | **Status** |
+|-------------|----------|--------------|-----------|
+| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden |
+| 95% Perzentil | <500ms | 412ms | ✅ Bestanden |
+| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden |
+| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden |
 
 ---
 
@@ -79,29 +41,3 @@
 
 ---
 
-## Performance-Metriken (F7)
-
-| **Messung** | **Ziel** | **Erreicht** | **Status** |
-|-------------|----------|--------------|-----------|
-| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden |
-| 95% Perzentil | <500ms | 412ms | ✅ Bestanden |
-| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden |
-| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden |
-
----
-
-## Hinweise
-- **Requirement ID:** entspricht den Sprint 3 Requirements aus Lastenheft und Pflichtenheft.
-- **Design-Element / Klasse:** welche Klassen für das Requirement relevant sind.
-- **Implementierungsmethode:** konkrete Methoden, die das Requirement erfüllen.
-- **Unit Test / Testfall:** mögliche Testfälle oder Testmethoden zur Verifikation.
-
----
-
-## Verknüpfungen zu vorherigen Sprints
-
-Diese Matrix ergänzt:
-- [Traceability-Matrix Sprint 1](Traceability-Matrix1.md)
-- [Traceability-Matrix Sprint 2](Traceability-Matrix2.md)
-
-Alle Requirements aus Sprint 1 und 2 bleiben gültig und werden durch Sprint 3 erweitert.
