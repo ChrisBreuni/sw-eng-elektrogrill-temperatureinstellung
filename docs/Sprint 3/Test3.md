@@ -292,6 +292,16 @@ Die Ergebnisse erscheinen in der **Traceability Matrix Sprint 3**.
 - **Bestanden** (90% <500ms, Max: 489ms)
 
 ---
+## Performance-Metriken (F7)
+
+| **Messung** | **Ziel** | **Erreicht** | **Status** |
+|-------------|----------|--------------|-----------|
+| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden |
+| 95% Perzentil | <500ms | 412ms | ✅ Bestanden |
+| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden |
+| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden |
+
+---
 
 ## 7. System-Tests (End-to-End)
 

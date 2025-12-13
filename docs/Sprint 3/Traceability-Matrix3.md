@@ -14,30 +14,5 @@
 | NF6.5 | Robustheit / Fehlerresistenz | **ErrorHandler**, **Validator** | Zentrale Fehlerbehandlung, strikte Validierung | Test SYS2, SYS3: Fehlerszenarien |
 | NF6.6 | Konsistente Schnittstellen | Alle refaktorierten Klassen | Einheitliche Methoden-Signaturen | Alle Tests: Schnittstellenkonsistenz |
 
----
-## Performance-Metriken (F7)
-
-| **Messung** | **Ziel** | **Erreicht** | **Status** |
-|-------------|----------|--------------|-----------|
-| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden |
-| 95% Perzentil | <500ms | 412ms | ✅ Bestanden |
-| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden |
-| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden |
 
 ---
-
-## Zustandsübergängs-Matrix (F8)
-
-| **Von Zustand** | **Nach Zustand** | **Bedingung** | **Implementiert in** |
-|-----------------|------------------|---------------|---------------------|
-| OFF | ON_HEATING | Zieltemperatur 50-500°C | `GrillStateMachine.transition_to()` |
-| ON_HEATING | ON_HOLDING | Aktuelle >= Zieltemperatur | `GrillStateMachine.transition_to()` |
-| ON_HOLDING | ON_HEATING | Aktuelle < Zieltemperatur | `GrillStateMachine.transition_to()` |
-| ON_HEATING | COOLING | Zieltemperatur = 0 | `GrillStateMachine.transition_to()` |
-| ON_HOLDING | COOLING | Zieltemperatur = 0 | `GrillStateMachine.transition_to()` |
-| COOLING | OFF | Aktuelle < 50°C | `GrillStateMachine.transition_to()` |
-| * | ERROR | Sensorfehler | `GrillStateMachine.transition_to()` |
-| ERROR | * | Fehler behoben | `GrillStateMachine.transition_to()` |
-
----
-
