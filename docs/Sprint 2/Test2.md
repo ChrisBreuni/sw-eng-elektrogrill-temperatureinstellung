@@ -1,5 +1,4 @@
-# Test2.md – Sprint 2 (GUI-Entwurf)
-**Elektrogrill – Temperatursteuerung**
+# Tests Sprint 2 - GUI
 
 ## 1. Zweck des Dokuments
 Dieses Dokument beschreibt die **Modultests** und **Integrationstests** für Sprint 2, der den **GUI-Entwurf** umfasst.
@@ -144,5 +143,3 @@ Die Tests in Sprint 2 konzentrieren sich auf:
 - Interaktion zwischen GUI und Backend-Modulen  
 - Konsistentes Temperatur-Update  
 
-Alle Testfälle wurden erfolgreich abgeschlossen.  
-Die Verknüpfungen erscheinen in [**TraceabilityMatrix2.md**](../Traceability-Matrix2.md).

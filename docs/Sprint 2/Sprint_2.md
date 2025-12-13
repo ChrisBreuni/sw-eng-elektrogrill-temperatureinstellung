@@ -1,4 +1,4 @@
-# Sprint 2
+# Sprint 2 - GUI
 
 ### Schritt 1: Sprint Planning
 
@@ -30,7 +30,7 @@ weitere Funktionen und zur Verfeinerung genutzt werden.
 - Req. NF6.5: Robustheit / Fehlerresistenz
 - Req. NF6.6: Konsistente Schnittstellen
 
-**Sprint-Zeitraum:** 01.12.2025 - 15.12.2025
+**Sprint-Zeitraum:** 01.12.2025 - 12.12.2025
 
 **Sprintziel:**
 

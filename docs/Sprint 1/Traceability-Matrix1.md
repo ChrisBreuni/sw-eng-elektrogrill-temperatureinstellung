@@ -10,12 +10,3 @@
 | F5 | Resttemperaturanzeige | **GrillController** | `is_rest_temperature()` | Test, ob Resttemperaturstatus korrekt erkannt wird |
 | NF6.1 | Programmiersprache Python | Projektstruktur, Klassen | Verwendung von Python | - |
 | NF6.2 | Tools & Packages (Tkinter) | - | Vorbereiten der GUI-Schnittstellen (`get_target_temperature()`, `get_current_temperature()`) | - |
-
----
-
-### Hinweise
-- **Requirement ID:** entspricht den Sprint 1 Requirements.  
-- **Design-Element / Klasse:** welche Klassen oder Module für das Requirement relevant sind.  
-- **Implementierungsmethode:** konkrete Methoden, die das Requirement erfüllen.  
-- **Unit Test / Testfall:** mögliche Testfälle oder Testmethoden zur Verifikation.
-

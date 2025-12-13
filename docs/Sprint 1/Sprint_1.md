@@ -1,4 +1,4 @@
-# Sprint 1
+# Sprint 1 - Kernlogik
 
 ### Schritt 1: Sprint Planning
 
