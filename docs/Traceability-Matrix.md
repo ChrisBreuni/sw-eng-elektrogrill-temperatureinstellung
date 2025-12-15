@@ -1,18 +1,6 @@
 # Traceability-Matrix  – final
 
-## Übersicht
-
-Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive ihren Tests aus den vergangenen 3 Sprints:
-
-- [Traceability-Matrix Sprint 1](Sprint%201/Traceability-Matrix1.md)
-- [Traceability-Matrix Sprint 2](Sprint%202/Traceability-Matrix2.md)
-- [Traceability-Matrix Sprint 3](Sprint%203/Traceability-Matrix3.md)
-
----
-
 ## Sprint 1 – Kernlogik
-
-### Requirements und Implementierung Sprint 1
 
 | Requirement ID | Requirement Beschreibung | Design-Element / Klasse | Implementierungsmethode | Unit Test / Testfall |
 |----------------|-------------------------|------------------------|------------------------|-----------------------|
@@ -44,7 +32,7 @@ Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive i
 
 ---
 
-## Detaillierte Requirements Sprint 2
+### Detaillierte Requirements Sprint 2
 
 | Requirement ID | Requirement Beschreibung | Design-Element / Klasse | Implementierungsmethode | Unit Test / Testfall |
 |----------------|-------------------------|------------------------|------------------------|-----------------------|
@@ -60,8 +48,6 @@ Diese konsolidierte Traceability-Matrix verknüpft alle Requirements inklusive i
 ---
 
 ## Sprint 3 – Fehlerbehandlung & Performance
-
-### Requirements und Implementierung Sprint 3
 
 | Requirement ID | Requirement Beschreibung | Design-Element / Klasse | Implementierungsmethode | Unit Test / Testfall |
 |----------------|-------------------------|------------------------|------------------------|-----------------------|
