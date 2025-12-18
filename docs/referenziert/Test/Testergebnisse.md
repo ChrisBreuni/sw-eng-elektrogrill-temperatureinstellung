@@ -115,31 +115,31 @@
 
 ### Performance-Tests (PT)
 
-| Test-ID | Testname | Requirement | Status | Datum | Bemerkungen |
-|---------|----------|-------------|--------|-------|-------------|
-| PT1 | GUI-Update-Zeit bei normaler Last | F7 | ✅ Bestanden | 20.12.2025 | Durchschnitt: 287ms, Max: 412ms, 95% < 500ms |
-| PT2 | GUI-Update-Zeit bei hoher Last | F7 | ✅ Bestanden | 20.12.2025 | 90% < 500ms, Max: 489ms |
+| Test-ID  | Testname                          | Requirement  | Status      | Bemerkungen                                  |
+|----------|-----------------------------------|--------------|-------------|----------------------------------------------|
+| PT1      | GUI-Update-Zeit bei normaler Last | F7           | ✅ Bestanden | Durchschnitt: 287ms, Max: 412ms, 95% < 500ms |
+| PT2      | GUI-Update-Zeit bei hoher Last    | F7           | ✅ Bestanden | 90% < 500ms, Max: 489ms                      |
 
 **Zusammenfassung Performance-Tests Sprint 3:** 2/2 bestanden (100%)
 
 #### Performance-Metriken (F7)
 
-| Messung | Ziel | Erreicht | Status |
-|---------|------|----------|--------|
-| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden |
-| 95% Perzentil | <500ms | 412ms | ✅ Bestanden |
-| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden |
-| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden |
+| Messung                       | Ziel   | Erreicht  | Status      |
+|-------------------------------|--------|-----------|-------------|
+| Durchschnittliche Update-Zeit | <300ms | 287ms     | ✅ Bestanden |
+| 95% Perzentil                 | <500ms | 412ms     | ✅ Bestanden |
+| Maximum (normale Last)        | <500ms | 412ms     | ✅ Bestanden |
+| Maximum (hohe Last)           | <500ms | 489ms     | ✅ Bestanden |
 
 ---
 
 ### Systemtests (ST)
 
-| Test-ID | Testname | Requirement | Status | Datum | Bemerkungen |
-|---------|----------|-------------|--------|-------|-------------|
-| ST3 | Kompletter Grillzyklus mit GUI | F1.1-F8 | ✅ Bestanden | 20.12.2025 | Alle 9 Schritte erfolgreich, keine Fehler |
-| ST4 | Fehlerfall während Betrieb | F6.2, F6.3, F8 | ✅ Bestanden | 20.12.2025 | Sensorfehler erkannt, Grill stoppt, Recovery OK |
-| ST5 | Ungültige Eingabe während Betrieb | F6.1, NF6.5 | ✅ Bestanden | 20.12.2025 | Fehlermeldung, System stabil, Betrieb läuft |
+| Test-ID   | Testname                          | Requirement    | Status      | Bemerkungen                                     |
+|-----------|-----------------------------------|----------------|-------------|-------------------------------------------------|
+| ST3       | Kompletter Grillzyklus mit GUI    | F1.1-F8        | ✅ Bestanden | Alle 9 Schritte erfolgreich, keine Fehler       |
+| ST4       | Fehlerfall während Betrieb        | F6.2, F6.3, F8 | ✅ Bestanden | Sensorfehler erkannt, Grill stoppt, Recovery OK |
+| ST5       | Ungültige Eingabe während Betrieb | F6.1, NF6.5    | ✅ Bestanden | Fehlermeldung, System stabil, Betrieb läuft     |
 
 **Zusammenfassung Systemtests Sprint 3:** 3/3 bestanden (100%)
 
