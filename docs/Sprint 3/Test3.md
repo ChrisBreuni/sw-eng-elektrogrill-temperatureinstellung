@@ -1,389 +1,108 @@
-# Test Sprint 3 - Fehlerbehandlung & Performance
+# Test Sprint 3 – Fehlerbehandlung & Performance
 
-## 1. Zweck des Dokuments
-Dieses Dokument beschreibt die **Unit-Tests**, **Integrationstests** und **System-Tests** für Sprint 3, 
-der Fehlerbehandlung, Performance-Optimierung und Zustandslogik umfasst.
+## 1. Ziel der Tests
 
-Ziele:
-- Überprüfung der korrekten Funktion von Validator, ErrorHandler und GrillStateMachine
-- Validierung der Performance-Anforderungen (<500ms)
-- Sicherstellung deterministischer Zustandsübergänge
-- Testprotokollierung mit Ergebnisstatus
+Das Ziel der Tests in Sprint 3 ist die Verifikation und Validierung der erweiterten Funktionalität des Elektrogrills hinsichtlich Fehlerbehandlung, Performance-Optimierung und deterministischer Zustandslogik. Die Tests stellen sicher, dass:
 
-Die Ergebnisse erscheinen in der **Traceability Matrix Sprint 3**.
+- Alle Fehlerszenarien (Sensorfehler, ungültige Eingaben) korrekt behandelt werden
+- Fehleranzeigen automatisch nach Timeout verschwinden
+- Alle Updates innerhalb von 500ms erfolgen (Performance-Anforderung)
+- Die Zustandslogik deterministisch und nachvollziehbar funktioniert
+- Das Gesamtsystem stabil und robust ist
 
 ---
 
-## 2. Testfälle auf Modulebene – Validator
+## 2. Testarten und Abdeckung
 
-### Testfall V1 – Validierung gültiger Temperaturwerte
-**Vorbedingung**  
-- Validator-Instanz existiert
+### 2.1 Unit-Tests (Neue Komponenten)
 
-**Aktion**  
-- `Validator.validate_temperature(200)` aufrufen
+Ziel: Prüfung der neuen Klassen `Validator`, `ErrorHandler` und `GrillStateMachine` auf funktionale Korrektheit.
 
-**Erwartetes Ergebnis**  
-- Rückgabe: `(True, "")`
+Beispielsweise getestet:
+- Validierung gültiger/ungültiger Temperaturwerte (Validator)
+- Sensorfehler-Behandlung und automatisches Löschen (ErrorHandler)
+- Gültige/ungültige Zustandsübergänge (GrillStateMachine)
 
-**Teststatus**  
-- **Bestanden**
+### 2.2 Integrationstests (Komponenten-Zusammenspiel)
 
----
+Ziel: Sicherstellen, dass alle Komponenten korrekt zusammenarbeiten, insbesondere:
+- GUI → Validator → Controller Integration
+- Controller → StateMachine → GUI Integration
+- Sensorfehler → ErrorHandler → GUI Integration
 
-### Testfall V2 – Validierung ungültiger Temperaturwerte (zu niedrig)
-**Vorbedingung**  
-- Validator-Instanz existiert
+### 2.3 Performance-Tests
 
-**Aktion**  
-- `Validator.validate_temperature(30)` aufrufen
+Ziel: Validierung der Performance-Anforderung (<500ms für alle Updates).
 
-**Erwartetes Ergebnis**  
-- Rückgabe: `(False, "Temperatur muss zwischen 50 und 500°C liegen")`
+### 2.4 System-Tests (End-to-End)
 
-**Teststatus**  
-- **Bestanden**
+Ziel: Prüfung des Gesamtsystems in realistischen Szenarien (kompletter Grillzyklus, Fehlerszenarien, ungültige Eingaben während Betrieb).
 
 ---
 
-### Testfall V3 – Validierung ungültiger Temperaturwerte (zu hoch)
-**Vorbedingung**  
-- Validator-Instanz existiert
+## 3. Teststrategie
 
-**Aktion**  
-- `Validator.validate_temperature(600)` aufrufen
+Die Teststrategie kombiniert **automatisierte Tests** auf allen Ebenen mit **Performance-Monitoring** und **End-to-End-Tests**, um folgende Ziele zu erreichen:
 
-**Erwartetes Ergebnis**  
-- Rückgabe: `(False, "Temperatur muss zwischen 50 und 500°C liegen")`
+- **Automatisierte Tests** für alle neuen Klassen (Validator, ErrorHandler, GrillStateMachine)
+- **Performance-Messungen** zur Validierung der <500ms Anforderung
+- **Fehlerfall-Tests** für robuste Fehlerbehandlung
+- **End-to-End-Tests** für realistische Nutzungsszenarien
+- **Regressionstests** zur Sicherstellung, dass bestehende Funktionalität nicht beeinträchtigt wurde
 
-**Teststatus**  
-- **Bestanden**
+### Testumgebung:
 
----
-
-### Testfall V4 – Validierung nicht-numerischer Werte
-**Vorbedingung**  
-- Validator-Instanz existiert
-
-**Aktion**  
-- `Validator.validate_temperature("abc")` aufrufen
-
-**Erwartetes Ergebnis**  
-- Rückgabe: `(False, "Bitte eine gültige Zahl eingeben")`
-
-**Teststatus**  
-- **Bestanden**
+- Python 3.x mit unittest oder pytest
+- Performance-Monitoring-Tools für Zeitmessungen
+- Simulierte Sensorfehler für Fehlerfall-Tests
+- Mock-Objekte für isolierte Tests
+- Logging für umfassende Nachvollziehbarkeit
 
 ---
 
-## 3. Testfälle auf Modulebene – ErrorHandler
+## 4. Testumfang
 
-### Testfall E1 – Sensorfehler-Behandlung
-**Vorbedingung**  
-- ErrorHandler-Instanz existiert
-- Kein aktiver Fehler
+### In-Scope:
 
-**Aktion**  
-- `ErrorHandler.handle_sensor_error()` aufrufen
+- Validator: Alle Validierungsregeln
+- ErrorHandler: Fehlerbehandlung mit Auto-Clear (10s Timeout)
+- GrillStateMachine: Alle Zustandsübergänge
+- Performance: <500ms für alle Updates
+- Integration: Zusammenspiel aller Komponenten
+- System: End-to-End-Szenarien
 
-**Erwartetes Ergebnis**  
-- `has_error()` liefert `True`
-- `get_current_error()` liefert "Err"
+### Out-of-Scope:
 
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall E2 – Automatisches Löschen nach Timeout
-**Vorbedingung**  
-- ErrorHandler-Instanz existiert
-- Fehler wurde gesetzt
-
-**Aktion**  
-- Warten 11 Sekunden
-- `has_error()` aufrufen
-
-**Erwartetes Ergebnis**  
-- `has_error()` liefert `False`
-- Fehler wurde automatisch gelöscht
-
-**Teststatus**  
-- **Bestanden**
+- Hardware-spezifische Tests (außerhalb Software-Scope)
+- Langzeit-Stabilitätstests (außerhalb Sprint-Scope)
+- Last-Tests mit mehreren parallelen Benutzern (Single-User-System)
 
 ---
 
-### Testfall E3 – Manuelles Löschen
-**Vorbedingung**  
-- ErrorHandler-Instanz existiert
-- Fehler wurde gesetzt
+## Definition Testfälle inkl. betroffener Requirements
 
-**Aktion**  
-- `ErrorHandler.clear_error()` aufrufen
+Alle Testfälle für Sprint 3 sind dokumentiert in:
 
-**Erwartetes Ergebnis**  
-- `has_error()` liefert `False`
-
-**Teststatus**  
-- **Bestanden**
+[Testfälle](../../docs/referenziert/Test/Testfaelle.md) (Sektion: Sprint 3 – Fehlerbehandlung & Performance)
 
 ---
 
-## 4. Testfälle auf Modulebene – GrillStateMachine
+## Dokumentation der Ergebnisse
 
-### Testfall S1 – Gültiger Zustandsübergang OFF → ON_HEATING
-**Vorbedingung**  
-- StateMachine im Zustand OFF
-- Zieltemperatur auf 200°C gesetzt
+Alle Testergebnisse für Sprint 3 sind dokumentiert in:
 
-**Aktion**  
-- `transition_to(ON_HEATING)` aufrufen
-
-**Erwartetes Ergebnis**  
-- Zustand wechselt zu ON_HEATING
-- `get_current_state()` liefert ON_HEATING
-
-**Teststatus**  
-- **Bestanden**
+[Testergebnisse](../../docs/referenziert/Test/Testergebnisse.md) (Sektion: Sprint 3 – Fehlerbehandlung & Performance)
 
 ---
 
-### Testfall S2 – Ungültiger Zustandsübergang OFF → ON_HOLDING
-**Vorbedingung**  
-- StateMachine im Zustand OFF
-
-**Aktion**  
-- `transition_to(ON_HOLDING)` aufrufen
-
-**Erwartetes Ergebnis**  
-- Exception wird geworfen: "Ungültiger Zustandsübergang"
-- Zustand bleibt OFF
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall S3 – Zustandsübergang ON_HEATING → ON_HOLDING
-**Vorbedingung**  
-- StateMachine im Zustand ON_HEATING
-- Aktuelle Temperatur >= Zieltemperatur
-
-**Aktion**  
-- `transition_to(ON_HOLDING)` aufrufen
-
-**Erwartetes Ergebnis**  
-- Zustand wechselt zu ON_HOLDING
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall S4 – Zustandsübergang bei Sensorfehler
-**Vorbedingung**  
-- StateMachine in beliebigem Zustand
-- Sensorfehler tritt auf
-
-**Aktion**  
-- `transition_to(ERROR)` aufrufen
-
-**Erwartetes Ergebnis**  
-- Zustand wechselt zu ERROR
-- Von jedem Zustand aus möglich
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-## 5. Integrationstests
-
-### Testfall I1 – GUI → Validator → Controller Integration
-**Vorbedingung**  
-- GUI, Validator, Controller verbunden
-
-**Aktion**  
-- Benutzer gibt ungültigen Wert "abc" ein
-- GUI ruft Validator auf
-- Validator gibt Fehler zurück
-- GUI zeigt Fehler an
-
-**Erwartetes Ergebnis**  
-- Fehlermeldung wird angezeigt
-- Controller-Zustand bleibt unverändert
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall I2 – Controller → StateMachine → GUI Integration
-**Vorbedingung**  
-- Controller nutzt StateMachine
-- GUI verbunden
-
-**Aktion**  
-- Zieltemperatur auf 250°C setzen
-- Controller wechselt Zustand zu ON_HEATING
-- GUI aktualisiert Anzeige
-
-**Erwartetes Ergebnis**  
-- Statusanzeige zeigt "Heating"
-- Lämpchen leuchtet
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall I3 – Sensorfehler → ErrorHandler → GUI Integration
-**Vorbedingung**  
-- System läuft normal
-
-**Aktion**  
-- Sensorfehler simulieren (None-Wert)
-- ErrorHandler wird benachrichtigt
-- GUI zeigt "Err" an
-
-**Erwartetes Ergebnis**  
-- GUI zeigt Fehler
-- Grill heizt nicht auf
-- StateMachine wechselt zu ERROR
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-## 6. Performance-Tests
-
-### Testfall P1 – GUI-Update-Zeit bei normaler Last
-**Vorbedingung**  
-- GUI läuft
-- Normale Last
-
-**Aktion**  
-- 100 Update-Zyklen durchführen
-- Zeit messen
-
-**Erwartetes Ergebnis**  
-- 95% aller Updates <500ms
-- Durchschnitt <300ms
-
-**Teststatus**  
-- **Bestanden** (Durchschnitt: 287ms, Max: 412ms)
-
----
-
-### Testfall P2 – GUI-Update-Zeit bei hoher Last
-**Vorbedingung**  
-- GUI läuft
-- Hohe Last (viele parallele Operationen)
-
-**Aktion**  
-- 100 Update-Zyklen unter Last
-- Zeit messen
-
-**Erwartetes Ergebnis**  
-- 90% aller Updates <500ms
-
-**Teststatus**  
-- **Bestanden** (90% <500ms, Max: 489ms)
-
----
-## Performance-Metriken (F7)
-
-| **Messung** | **Ziel** | **Erreicht** | **Status** |
-|-------------|----------|--------------|-----------|
-| Durchschnittliche Update-Zeit | <300ms | 287ms | ✅ Bestanden |
-| 95% Perzentil | <500ms | 412ms | ✅ Bestanden |
-| Maximum (normale Last) | <500ms | 412ms | ✅ Bestanden |
-| Maximum (hohe Last) | <500ms | 489ms | ✅ Bestanden |
-
----
-
-## 7. System-Tests (End-to-End)
-
-### Testfall SYS1 – Kompletter Grillzyklus
-**Vorbedingung**  
-- System gestartet
-- Grill aus, kalt
-
-**Aktion**  
-1. Zieltemperatur auf 200°C setzen
-2. Grill startet Heizen
-3. Temperatur erreicht 200°C
-4. Status wechselt zu "Holding"
-5. Zieltemperatur auf 0 setzen
-6. Grill schaltet ab
-7. Cooling-Status wird angezeigt
-8. Temperatur sinkt unter 50°C
-9. Status wechselt zu OFF
-
-**Erwartetes Ergebnis**  
-- Alle Zustandswechsel korrekt
-- Alle Anzeigen aktualisiert
-- Keine Fehler
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall SYS2 – Fehlerfall während Betrieb
-**Vorbedingung**  
-- Grill heizt
-- Zieltemperatur 250°C
-
-**Aktion**  
-1. Sensorfehler simulieren
-2. System erkennt Fehler
-3. Fehleranzeige "Err"
-4. Grill stoppt Heizen
-5. Fehler wird behoben
-6. System wechselt zurück zu normalem Betrieb
-
-**Erwartetes Ergebnis**  
-- Fehler wird sofort erkannt
-- Grill heizt nicht während Fehler
-- Nach Fehlerbehebung normaler Betrieb
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-### Testfall SYS3 – Ungültige Eingabe während Betrieb
-**Vorbedingung**  
-- Grill läuft
-- Zieltemperatur 200°C
-
-**Aktion**  
-1. Benutzer gibt ungültigen Wert "999" ein
-2. Fehlermeldung wird angezeigt
-3. Zieltemperatur bleibt 200°C
-4. Betrieb läuft normal weiter
-
-**Erwartetes Ergebnis**  
-- Fehlermeldung erscheint
-- System bleibt stabil
-- Kein Zustandswechsel
-
-**Teststatus**  
-- **Bestanden**
-
----
-
-## 8. Zusammenfassung
+## Zusammenfassung Sprint 3 Tests
 
 Die Tests in Sprint 3 konzentrieren sich auf:
-- Validator: Alle Validierungsregeln korrekt implementiert
-- ErrorHandler: Fehlerbehandlung mit Auto-Clear funktioniert
-- GrillStateMachine: Alle Zustandsübergänge deterministisch
-- Performance: <500ms Anforderung erfüllt
-- Integration: Alle Komponenten arbeiten korrekt zusammen
-- System: End-to-End-Szenarien funktionieren fehlerfrei
+- **Validator**: Alle Validierungsregeln korrekt implementiert
+- **ErrorHandler**: Fehlerbehandlung mit Auto-Clear funktioniert
+- **GrillStateMachine**: Alle Zustandsübergänge deterministisch
+- **Performance**: <500ms Anforderung erfüllt (Durchschnitt: 287ms, Max: 489ms)
+- **Integration**: Alle Komponenten arbeiten korrekt zusammen
+- **System**: End-to-End-Szenarien funktionieren fehlerfrei
 
-
-Alle kritischen Testfälle wurden erfolgreich abgeschlossen.  
+Alle kritischen Testfälle wurden erfolgreich abgeschlossen.

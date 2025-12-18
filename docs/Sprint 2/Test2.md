@@ -1,145 +1,95 @@
-# Tests Sprint 2 - GUI
+# Test Sprint 2 – GUI
 
-## 1. Zweck des Dokuments
-Dieses Dokument beschreibt die **Modultests** und **Integrationstests** für Sprint 2, der den **GUI-Entwurf** umfasst.
+## 1. Ziel der Tests
 
-Ziele:
-- Überprüfung der korrekten Funktion der GUI-Logik  
-- Validierung der Schnittstellen zwischen GUI, Temperaturmodulen und Kontrolllogik  
-- Sicherstellung, dass Nutzerinteraktionen korrekt verarbeitet werden  
-- Testprotokollierung mit Ergebnisstatus  
+Das Ziel der Tests in Sprint 2 ist die Verifikation und Validierung der GUI-Komponenten des Elektrogrills hinsichtlich Benutzerfreundlichkeit, korrekter Interaktion mit der Kernlogik und robuster Fehlerbehandlung bei Eingaben. Die Tests stellen sicher, dass:
 
-Die Ergebnisse erscheinen in der **Traceability Matrix Sprint 2**.
-
----
-
-# 2. Testfälle auf Modulebene (GUI-Komponenten)
-
-## Testfall M1 – Validierung der Eingabe für Wunschtemperatur im GUI
-**Vorbedingung**  
-- GUI ist gestartet.  
-- TargetTemperature-Objekt existiert mit Standardwert 0.
-
-**Aktion**  
-- Benutzer gibt einen ungültigen Wert ein: `abc` oder `600`.
-
-**Erwartetes Ergebnis**  
-- GUI zeigt eine Fehlermeldung.  
-- TargetTemperature wird **nicht** verändert.  
-- Eingabefeld wird zurückgesetzt oder rot markiert.
-
-**Nachbedingung**  
-- Wunschtemperatur bleibt 0 oder letzter gültiger Wert.
-
-**Teststatus**  
-- **Bestanden**
+- Die GUI alle Temperaturwerte korrekt anzeigt
+- Benutzerinteraktionen (Buttons, Eingabefelder) korrekt verarbeitet werden
+- Ungültige Eingaben abgefangen und dem Benutzer angezeigt werden
+- Die GUI mit der Kernlogik konsistent kommuniziert
+- Alle Statusanzeigen (Zieltemperatur erreicht, Restwärme) korrekt aktualisiert werden
 
 ---
 
-## Testfall M2 – Aktualisierung des Temperaturanzeige-Labels
-**Vorbedingung**  
-- GUI ist aktiv.  
-- CurrentTemperature liefert `150`.
+## 2. Testarten und Abdeckung
 
-**Aktion**  
-- GUI ruft `CurrentTemperature.get_temperature()` auf.  
-- Anzeige soll aktualisiert werden.
+### 2.1 Unit-Tests (GUI-Komponenten)
 
-**Erwartetes Ergebnis**  
-- GUI zeigt: „Aktuelle Temperatur: 150°C“.
+Ziel: Prüfung der GUI-Logik auf Komponentenebene, z.B. Validierung von Eingaben, Aktivierung/Deaktivierung von Buttons, Aktualisierung von Labels.
 
-**Nachbedingung**  
-- Temperatur-Label enthält den neuen Wert.
+Beispielsweise getestet:
+- Validierung der Eingabe für Wunschtemperatur im GUI
+- Aktualisierung des Temperaturanzeige-Labels
+- Aktivieren/Deaktivieren des Start-Buttons
 
-**Teststatus**  
-- **Bestanden**
+### 2.2 Integrationstests (GUI ↔ Kernlogik)
 
----
-
-## Testfall M3 – Aktivieren/Deaktivieren des Start-Buttons
-**Vorbedingung**  
-- Wunschtemperatur ist 0.  
-- Start-Button deaktiviert.
-
-**Aktion**  
-- Benutzer stellt gültige Wunschtemperatur, z. B. 180°C ein.
-
-**Erwartetes Ergebnis**  
-- Start-Button wird aktiviert.
-
-**Nachbedingung**  
-- Button ist anklickbar.
-
-**Teststatus**  
-- **Bestanden**
+Ziel: Sicherstellen, dass GUI und Kernlogik korrekt zusammenarbeiten, insbesondere:
+- GUI setzt TargetTemperature → Controller übernimmt Wert
+- Start-Button löst Start der Heizlogik aus
+- GUI aktualisiert Anzeige nach neuem Temperaturwert
 
 ---
 
-# 3. Integrationstests (GUI ↔ Kernlogik)
+## 3. Teststrategie
 
-## Testfall I1 – GUI setzt TargetTemperature → Kontrolllogik übernimmt Wert
-**Vorbedingung**  
-- GUI ist mit TargetTemperature verbunden.
+Die Teststrategie kombiniert **automatisierte Unit-Tests** mit **manuellen Integrationstests**, um folgende Ziele zu erreichen:
 
-**Aktion**  
-- Benutzer gibt 200°C ein.  
-- GUI ruft `TargetTemperature.set_temperature(200)` auf.
+- **Automatisierte Tests** für GUI-Validierungslogik
+- **Manuelle Tests** für Usability-Aspekte und visuelle Darstellung
+- **Iterative Tests** nach jeder Änderung an GUI-Komponenten
+- **Regressionstests** nach Anpassungen an der Schnittstelle zwischen GUI und Kernlogik
 
-**Erwartetes Ergebnis**  
-- Wert wird akzeptiert.  
-- Kontrolllogik erhält gültigen Temperaturwert.
+### Testumgebung:
 
-**Nachbedingung**  
-- TargetTemperature intern = 200°C.
-
-**Teststatus**  
-- **Bestanden**
+- Python 3.x mit tkinter
+- Mock-Objekte für Controller-Simulation
+- Simulierte Benutzerinteraktionen für GUI-Tests
+- Logging für Debugging und Nachvollziehbarkeit
 
 ---
 
-## Testfall I2 – Start-Button löst Start der Heizlogik aus
-**Vorbedingung**  
-- Wunschtemperatur gültig (z. B. 250°C).  
-- Start-Button ist aktiv.
+## 4. Testumfang
 
-**Aktion**  
-- Benutzer klickt „Start“.
+### In-Scope:
 
-**Erwartetes Ergebnis**  
-- GUI sendet Start-Event.  
-- Heizlogik wird gestartet.
+- GUI-Validierungslogik für Temperatureingaben
+- Anzeige von aktueller und Zieltemperatur
+- Button-Interaktionen (Start, Stop, +, –)
+- Fehleranzeigen bei ungültigen Eingaben
+- Statusanzeigen (Zieltemperatur erreicht, Restwärme)
 
-**Nachbedingung**  
-- Systemstatus = „Heating“.
+### Out-of-Scope:
 
-**Teststatus**  
-- **Bestanden**
+- Detaillierte Fehlerbehandlung mit Auto-Clear (erst in Sprint 3)
+- Performance-Tests (<500ms) (erst in Sprint 3)
+- Zustandsautomat-Verfeinerung (erst in Sprint 3)
 
 ---
 
-## Testfall I3 – GUI aktualisiert Anzeige nach neuem Temperaturwert
-**Vorbedingung**  
-- GUI ist mit CurrentTemperature verbunden.  
-- Anzeige zeigt 100°C.
+## Definition Testfälle inkl. betroffener Requirements
 
-**Aktion**  
-- CurrentTemperature liefert Update auf 130°C.
+Alle Testfälle für Sprint 2 sind dokumentiert in:
 
-**Erwartetes Ergebnis**  
-- GUI aktualisiert Anzeige ohne Verzögerung oder Fehler.
-
-**Nachbedingung**  
-- GUI zeigt 130°C.
-
-**Teststatus**  
-- **Bestanden**
+[Testfälle](../../docs/referenziert/Test/Testfaelle.md) (Sektion: Sprint 2 – GUI)
 
 ---
 
-# 4. Zusammenfassung
+## Dokumentation der Ergebnisse
+
+Alle Testergebnisse für Sprint 2 sind dokumentiert in:
+
+[Testergebnisse](../../docs/referenziert/Test/Testergebnisse.md) (Sektion: Sprint 2 – GUI)
+
+---
+
+## Zusammenfassung Sprint 2 Tests
+
 Die Tests in Sprint 2 konzentrieren sich auf:
-- GUI-Logik  
-- Validierung von Benutzereingaben  
-- Interaktion zwischen GUI und Backend-Modulen  
-- Konsistentes Temperatur-Update  
+- **GUI-Logik**: Alle Validierungen und Button-Interaktionen funktionieren korrekt
+- **Validierung von Benutzereingaben**: Ungültige Werte werden abgefangen
+- **Interaktion zwischen GUI und Backend-Modulen**: Schnittstellen funktionieren fehlerfrei
+- **Konsistentes Temperatur-Update**: Anzeigen werden korrekt aktualisiert
 
+Alle kritischen Testfälle wurden erfolgreich abgeschlossen.
