@@ -1,4 +1,4 @@
-# Traceability-Matrix  – final
+# Traceability-Matrix
 
 ## Sprint 1 – Kernlogik
 

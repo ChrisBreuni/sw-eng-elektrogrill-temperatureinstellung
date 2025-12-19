@@ -197,7 +197,7 @@
 
 ✅ **Alle funktionalen Requirements (F1.1-F8) vollständig getestet**
 
-✅ **Alle nicht-funktionalen Requirements (NF6.x) validiert**
+✅ **Alle nötigen nicht-funktionalen Requirements validiert**
 
 ✅ **Performance-Anforderungen (<500ms) erfüllt und nachgewiesen**
 
