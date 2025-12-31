@@ -72,7 +72,7 @@ Die Teststrategie kombiniert **automatisierte Unit-Tests** mit **manuellen Integ
 
 Alle Testfälle für Sprint 2 sind dokumentiert in:
 
-[Testfälle](../../docs/referenziert/Test/Testfaelle.md) (Sektion: Sprint 2 – GUI)
+[Testfälle](../referenziert/Tests/Testfaelle.md) (Sektion: Sprint 2 – GUI)
 
 ---
 
@@ -80,7 +80,7 @@ Alle Testfälle für Sprint 2 sind dokumentiert in:
 
 Alle Testergebnisse für Sprint 2 sind dokumentiert in:
 
-[Testergebnisse](../../docs/referenziert/Test/Testergebnisse.md) (Sektion: Sprint 2 – GUI)
+[Testergebnisse](../referenziert/Tests/Testergebnisse.md) (Sektion: Sprint 2 – GUI)
 
 ---
 

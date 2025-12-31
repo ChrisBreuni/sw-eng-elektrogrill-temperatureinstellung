@@ -77,7 +77,7 @@ Die Teststrategie kombiniert **automatisierte Unit-Tests** mit **manuellen Integ
 
 Alle Testfälle für Sprint 1 sind dokumentiert in:
 
-[Testfälle](../../docs/referenziert/Test/Testfaelle.md) (Sektion: Sprint 1 – Kernlogik)
+[Testfälle](../referenziert/Tests/Testfaelle.md) (Sektion: Sprint 1 – Kernlogik)
 
 ---
 
@@ -85,7 +85,7 @@ Alle Testfälle für Sprint 1 sind dokumentiert in:
 
 Alle Testergebnisse für Sprint 1 sind dokumentiert in:
 
-[Testergebnisse](../../docs/referenziert/Test/Testergebnisse.md) (Sektion: Sprint 1 – Kernlogik)
+[Testergebnisse](../referenziert/Tests/Testergebnisse.md) (Sektion: Sprint 1 – Kernlogik)
 
 ---
 

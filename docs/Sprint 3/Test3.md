@@ -83,7 +83,7 @@ Die Teststrategie kombiniert **automatisierte Tests** auf allen Ebenen mit **Per
 
 Alle Testfälle für Sprint 3 sind dokumentiert in:
 
-[Testfälle](../../docs/referenziert/Test/Testfaelle.md) (Sektion: Sprint 3 – Fehlerbehandlung & Performance)
+[Testfälle](../referenziert/Tests/Testfaelle.md) (Sektion: Sprint 3 – Fehlerbehandlung & Performance)
 
 ---
 
@@ -91,7 +91,7 @@ Alle Testfälle für Sprint 3 sind dokumentiert in:
 
 Alle Testergebnisse für Sprint 3 sind dokumentiert in:
 
-[Testergebnisse](../../docs/referenziert/Test/Testergebnisse.md) (Sektion: Sprint 3 – Fehlerbehandlung & Performance)
+[Testergebnisse](../referenziert/Tests/Testergebnisse.md) (Sektion: Sprint 3 – Fehlerbehandlung & Performance)
 
 ---
 
