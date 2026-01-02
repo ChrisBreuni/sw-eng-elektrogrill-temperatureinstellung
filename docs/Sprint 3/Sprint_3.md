@@ -26,7 +26,7 @@ die Code-Qualität auf ein produktionsreifes Niveau gebracht.
 - Req. F7: Performance / Aktualisierung (500ms Reaktionszeit)
 - Req. F8: Zustandslogik (deterministische Zustandswechsel)
 
-**Sprint-Zeitraum:** 10.12.2025 - 20.12.2025 (voraussichtlich ca.)
+**Sprint-Zeitraum:** 14.12.2025 - 02.01.2025 (voraussichtlich ca.)
 
 **Sprintziel:**
 
