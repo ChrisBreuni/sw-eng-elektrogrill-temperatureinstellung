@@ -37,11 +37,11 @@
 
 ## Technologiestack
 
-| Kategorie                | Technologie / Tool   | Begründung                                                               |
-|--------------------------|----------------------|--------------------------------------------------------------------------|
-| Sprache                  | Python 3.x           | Requirements-Vorgabe                                                     |
-| GUI-Framework            | Tkinter              | Requirements-Vorgabe (NF6.2), Standard-GUI für Python                    |
-| Versionskontrolle        | Git + GitHub         | Standard                                                                 |
-| IDE                      | VS Code / PyCharm    | Python-Support, Tkinter-Vorschau                                         |
-| Test-Framework           | unittest / pytest    | Standard für Python, GUI-Tests mit Mock-Objekten                         |
-| Dokumentation            | Markdown + PlantUML  | Für Anforderungen & Architektur, einfache Modellierung                   |
+| Kategorie                | Technologie / Tool  | Begründung                                                               |
+|--------------------------|---------------------|--------------------------------------------------------------------------|
+| Sprache                  | Python 3.x          | Requirements-Vorgabe                                                     |
+| GUI-Framework            | Tkinter             | Requirements-Vorgabe (NF6.2), Standard-GUI für Python                    |
+| Versionskontrolle        | Git + GitHub        | Standard                                                                 |
+| IDE                      | PyCharm             | Python-Support, Tkinter-Vorschau                                         |
+| Test-Framework           | unittest / pytest   | Standard für Python, GUI-Tests mit Mock-Objekten                         |
+| Dokumentation            | Markdown + PlantUML | Für Anforderungen & Architektur, einfache Modellierung                   |

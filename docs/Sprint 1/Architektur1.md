@@ -37,6 +37,6 @@
 |--------------------------|----------------------|--------------------------------------------------------------------------|
 | Sprache                  | Python 3.x           | Requirements-Vorgabe, einfache Syntax, schnelle Entwicklung             |
 | Versionskontrolle        | Git + GitHub         | Standard                                                                 |
-| IDE                      | VS Code / PyCharm    | Leichtgewichtig, Python-Support                                          |
+| IDE                      | PyCharm    | Leichtgewichtig, Python-Support                                          |
 | Test-Framework           | unittest / pytest    | Standard für Python, einfach integrierbar                                |
 | Dokumentation            | Markdown + PlantUML  | Für Anforderungen & Architektur, einfache Modellierung                   |

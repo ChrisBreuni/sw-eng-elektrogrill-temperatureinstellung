@@ -41,13 +41,13 @@
 
 ## Technologiestack
 
-| Kategorie                | Technologie / Tool   | Begründung                                                               |
-|--------------------------|----------------------|--------------------------------------------------------------------------|
-| Sprache                  | Python 3.x           | Requirements-Vorgabe                                                     |
-| GUI-Framework            | Tkinter              | Requirements-Vorgabe (NF6.2)                                             |
-| Performance-Monitoring   | time.perf_counter()  | Python-Standard, hochauflösende Zeitmessung                              |
-| Logging                  | logging-Modul        | Zustandswechsel-Logging für Debugging                                    |
-| Versionskontrolle        | Git + GitHub         | Standard                                                                 |
-| IDE                      | VS Code / PyCharm    | Python-Support                                                           |
-| Test-Framework           | unittest / pytest    | Erweiterte Tests für neue Komponenten                                    |
-| Dokumentation            | Markdown + PlantUML  | Für Anforderungen & Architektur, einfache Modellierung                   |
+| Kategorie                | Technologie / Tool  | Begründung                                                               |
+|--------------------------|---------------------|--------------------------------------------------------------------------|
+| Sprache                  | Python 3.x          | Requirements-Vorgabe                                                     |
+| GUI-Framework            | Tkinter             | Requirements-Vorgabe (NF6.2)                                             |
+| Performance-Monitoring   | time.perf_counter() | Python-Standard, hochauflösende Zeitmessung                              |
+| Logging                  | logging-Modul       | Zustandswechsel-Logging für Debugging                                    |
+| Versionskontrolle        | Git + GitHub        | Standard                                                                 |
+| IDE                      | PyCharm             | Python-Support                                                           |
+| Test-Framework           | unittest / pytest   | Erweiterte Tests für neue Komponenten                                    |
+| Dokumentation            | Markdown + PlantUML | Für Anforderungen & Architektur, einfache Modellierung                   |
