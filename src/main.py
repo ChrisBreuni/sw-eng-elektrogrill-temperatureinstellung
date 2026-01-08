@@ -1,36 +1,31 @@
+"""
+main.py - Haupteinstiegspunkt der Elektrogrill-Steuerungsanwendung
+
+Startet den Elektrogrill mit GUI.
+
+Struktur:
+- Model-Schicht: CurrentTemperature, TargetTemperature, PowerState
+- Controller-Schicht: GrillController
+- View-Schicht: GrillGUI
+"""
+
 from src.grill_controller import GrillController
+from src.gui_main import GrillGUI
 
 
-def print_state(controller: GrillController, label: str) -> None:
-    print(f"--- {label} ---")
-    print(f"Aktuelle Temperatur: {controller.get_current_temperature()} °C")
-    print(f"Zieltemperatur:     {controller.get_target_temperature()} °C")
-    print(f"Power an?:          {controller.power_state.is_on()}")
-    print(f"Ziel erreicht?:     {controller.is_target_reached()}")
-    print(f"Cooling down?:      {controller.is_cooling_down()}")
-    print(f"Status:             {controller.get_status()}")
-    print()
+def main():
+    """
+    Startet die Elektrogrill-Steuerungsanwendung mit GUI.
+    """
+    # Erstelle Controller (Model + Business-Logic)
+    controller = GrillController()
+    
+    # Erstelle GUI (View-Schicht)
+    gui = GrillGUI(controller)
+    
+    # Starte GUI (Mainloop)
+    gui.run()
 
 
 if __name__ == "__main__":
-    controller = GrillController()
-
-    # 1) Zieltemperatur setzen
-    controller.set_target_temperature(180.0)
-    controller.set_current_temperature(20.0)
-    print_state(controller, "Start mit Ziel 180 °C")
-
-    # 2) Aufheizen simulieren
-    for temp in [50.0, 120.0, 170.0, 180.0, 200.0]:
-        controller.set_current_temperature(temp)
-        print_state(controller, f"Aufheizen – aktuelle Temperatur {temp} °C")
-
-    # 3) Grill ausschalten – Restwärme
-    controller.set_target_temperature(0.0)  # schaltet Power aus
-    for temp in [150.0, 80.0, 40.0]:
-        controller.set_current_temperature(temp)
-        print_state(controller, f"Nach Ausschalten – Temperatur {temp} °C")
-
-    # 4) Sensorfehler simulieren
-    controller.set_current_temperature(-1.0)
-    print_state(controller, "Sensorfehler (Temperatur = -1.0)")
+    main()
