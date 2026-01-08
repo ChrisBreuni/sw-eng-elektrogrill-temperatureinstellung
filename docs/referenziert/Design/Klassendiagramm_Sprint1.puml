@@ -1,0 +1,89 @@
+@startuml Klassendiagramm_Sprint1
+' Sprint 1 Klassendiagramm
+' Zeigt die Kernlogik-Klassen: CurrentTemperature, TargetTemperature, PowerState, GrillController
+
+title Sprint 1 - Klassendiagramm (Kernlogik)
+
+package "Model-Schicht (Sprint 1)" {
+    
+    class CurrentTemperature {
+        - _current_temp : float = 20.0
+        - _target_temp : float
+        --
+        + get_temperature() : float
+        + set_target_temperature(target: float) : void
+        + update() : void
+        + reset() : void
+    }
+    
+    class TargetTemperature {
+        - _target_temp : float = 0.0
+        --
+        + get_target_temperature() : float
+        + set_target_temperature(value: float) : void
+        + increase(delta: float = 10.0) : void
+        + decrease(delta: float = 10.0) : void
+        + reset() : void
+    }
+    
+    class PowerState {
+        - _is_on : bool = False
+        --
+        + is_on() : bool
+        + turn_on() : void
+        + turn_off() : void
+        + toggle_power() : void
+        + reset() : void
+    }
+    
+    class GrillController {
+        - current_temp : CurrentTemperature
+        - target_temp : TargetTemperature
+        - power_state : PowerState
+        --
+        + update() : void
+        + get_current_temperature() : float
+        + get_target_temperature() : float
+        + get_status() : str
+        + is_target_reached() : bool
+        + is_cooling_down() : bool
+        + set_target_temperature(value: float) : void
+        + increase_target_temperature(delta: float) : void
+        + decrease_target_temperature(delta: float) : void
+        + toggle_power() : void
+        + reset() : void
+    }
+}
+
+' Beziehungen
+GrillController --> CurrentTemperature : uses
+GrillController --> TargetTemperature : uses
+GrillController --> PowerState : uses
+
+note right of GrillController
+    Koordiniert alle Model-Komponenten
+    Berechnet Status basierend auf:
+    - Stromstatus (PowerState)
+    - Aktuelle Temperatur (CurrentTemperature)
+    - Zieltemperatur (TargetTemperature)
+end note
+
+note right of CurrentTemperature
+    Simuliert Temperaturänderungen
+    Berücksichtigt Heizen und Abkühlen
+    Update-Intervall: 500ms
+end note
+
+note right of TargetTemperature
+    Speichert gewünschte Temperatur
+    Erlaubte Werte: 0°C oder 50-500°C
+    Validierung mit ValueError
+end note
+
+note right of PowerState
+    Speichert Ein/Aus-Status
+    Rein boolscher Stromschalter
+    Ändert NICHT Zieltemperatur
+end note
+
+@enduml

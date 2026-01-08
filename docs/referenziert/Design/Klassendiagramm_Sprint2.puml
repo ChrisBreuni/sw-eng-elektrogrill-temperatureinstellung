@@ -1,0 +1,109 @@
+@startuml Klassendiagramm_Sprint2
+' Sprint 2 Klassendiagramm
+' Zeigt die Erweiterung um GUI und verbesserten Controller
+
+title Sprint 2 - Klassendiagramm (Mit GUI)
+
+package "Model-Schicht" {
+    class CurrentTemperature {
+        - _current_temp : float = 20.0
+        - _target_temp : float
+        --
+        + get_temperature() : float
+        + set_target_temperature(target: float) : void
+        + update() : void
+        + reset() : void
+    }
+    
+    class TargetTemperature {
+        - _target_temp : float = 0.0
+        --
+        + get_target_temperature() : float
+        + set_target_temperature(value: float) : void
+        + increase(delta: float = 10.0) : void
+        + decrease(delta: float = 10.0) : void
+        + reset() : void
+    }
+    
+    class PowerState {
+        - _is_on : bool = False
+        --
+        + is_on() : bool
+        + turn_on() : void
+        + turn_off() : void
+        + toggle_power() : void
+        + reset() : void
+    }
+    
+    class GrillController {
+        - current_temp : CurrentTemperature
+        - target_temp : TargetTemperature
+        - power_state : PowerState
+        --
+        + update() : void
+        + get_current_temperature() : float
+        + get_target_temperature() : float
+        + get_status() : str
+        + is_target_reached() : bool
+        + is_cooling_down() : bool
+        + set_target_temperature(value: float) : void
+        + increase_target_temperature(delta: float) : void
+        + decrease_target_temperature(delta: float) : void
+        + toggle_power() : void
+        + reset() : void
+    }
+}
+
+package "View-Schicht (Neu in Sprint 2)" {
+    class GrillGUI {
+        - root : Tk
+        - controller : GrillController
+        - _ui_refs : dict
+        --
+        + _create_widgets() : void
+        + _increase_target() : void
+        + _decrease_target() : void
+        + _set_target() : void
+        + _toggle_power() : void
+        + _update_display() : void
+        + _schedule_update() : void
+        + run() : void
+    }
+}
+
+' Beziehungen
+GrillController --> CurrentTemperature : uses
+GrillController --> TargetTemperature : uses
+GrillController --> PowerState : uses
+GrillGUI --> GrillController : uses
+GrillGUI --> "UI Refs" : manages
+
+note right of GrillGUI
+    Tkinter-basierte Benutzeroberfläche
+    Layout: 5 Frames
+    - Header
+    - Temperature Display
+    - Status Indicators
+    - Power Control
+    - Test/Debug
+    
+    Update-Interval: 500ms
+    Responsive UI (keine while-Schleifen)
+end note
+
+note right of GrillController
+    Koordinator zwischen Model und View
+    Keine Geschäftslogik in GUI
+    GUI delegiert alle Validierungen
+end note
+
+note as NFrame
+    Frame-Struktur in GrillGUI:
+    - header_frame: Titel
+    - temp_frame: Temp Display + Buttons
+    - status_frame: Status Anzeigen
+    - power_frame: Power Button
+    - test_frame: Debug Buttons (Sprint 3)
+end note
+
+@enduml

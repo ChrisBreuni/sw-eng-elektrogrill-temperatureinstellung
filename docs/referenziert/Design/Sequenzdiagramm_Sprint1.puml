@@ -1,0 +1,87 @@
+@startuml Sequenzdiagramm_Sprint1
+' Sprint 1 Sequenzdiagramm
+' Zeigt Datenfluss zwischen CurrentTemperature, TargetTemperature und GrillController
+
+title Sprint 1 - Sequenzdiagramm (Kernlogik Ablauf)
+
+actor User
+participant GUI
+participant GrillController
+participant TargetTemperature
+participant PowerState
+participant CurrentTemperature
+
+User -> GUI: Zieltemp setzen (z.B. 180°C)
+GUI -> GrillController: set_target_temperature(180)
+GrillController -> TargetTemperature: set_target_temperature(180)
+TargetTemperature -> TargetTemperature: _validate(180)
+note right of TargetTemperature
+    Validierung:
+    - 0°C oder 50-500°C
+    - Alles andere: ValueError
+end note
+TargetTemperature --> GrillController: OK
+GrillController -> PowerState: turn_on()
+note right of PowerState
+    Grill wird eingeschaltet
+    Zieltemperatur bleibt bestehen
+end note
+PowerState --> GrillController: OK
+GrillController --> GUI: OK
+
+par Periodische Updates (alle 500ms)
+    GUI -> GrillController: update()
+    GrillController -> TargetTemperature: get_target_temperature()
+    TargetTemperature --> GrillController: 180.0
+    
+    GrillController -> PowerState: is_on()
+    PowerState --> GrillController: True
+    
+    GrillController -> CurrentTemperature: set_target_temperature(180)
+    CurrentTemperature -> CurrentTemperature: _rampen_simulation()
+    note right of CurrentTemperature
+        Aktuelle Temp nähert sich
+        Zieltemperatur an
+        Heating Rate: +2.0°C pro Update
+    end note
+    
+    GrillController -> CurrentTemperature: update()
+    CurrentTemperature --> GrillController: updated
+    
+    GrillController -> CurrentTemperature: get_temperature()
+    CurrentTemperature --> GrillController: 25.0
+    
+    GrillController -> GrillController: berechne_status()
+    note right of GrillController
+        Status Logik:
+        - Wenn Power OFF: "OFF"
+        - Wenn Current < Target: "HEATING"
+        - Wenn Current >= Target: "TARGET_REACHED"
+        - Wenn Power OFF, aber Temp > 50: "COOLING_DOWN"
+    end note
+    
+    GrillController --> GUI: Status, Temps, etc.
+    GUI -> GUI: _update_display()
+end
+
+User -> GUI: [+10°C] Button
+GUI -> GrillController: increase_target_temperature(10)
+GrillController -> TargetTemperature: increase(10)
+TargetTemperature -> TargetTemperature: validate_temperature_step()
+TargetTemperature --> GrillController: OK (neu: 190°C)
+GrillController --> GUI: OK
+GUI -> GUI: _update_display()
+
+User -> GUI: [EIN/AUS] Button
+GUI -> GrillController: toggle_power()
+GrillController -> PowerState: toggle_power()
+PowerState -> PowerState: _is_on = not _is_on
+PowerState --> GrillController: OFF
+note right of PowerState
+    WICHTIG: Zieltemperatur
+    wird NICHT geändert!
+end note
+GrillController --> GUI: OK
+GUI -> GUI: _update_display()
+
+@enduml

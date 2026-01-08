@@ -1,0 +1,182 @@
+@startuml Sequenzdiagramm_Sprint3
+' Sprint 3 Sequenzdiagramm
+' Zeigt Fehlerbehandlung und Validator-Integration
+
+title Sprint 3 - Sequenzdiagramm (Fehlerbehandlung & Validator)
+
+actor User
+participant GrillGUI
+participant GrillController
+participant Validator
+participant TargetTemperature
+participant ErrorHandler
+participant CurrentTemperature
+participant PowerState
+
+== Szenario 1: Ungültige Temperatureingabe ==
+
+User -> GrillGUI: Gibt "abc" ein und [Setzen]
+GrillGUI -> GrillGUI: _set_target()
+GrillGUI -> GrillController: set_target_temperature("abc")
+GrillController -> Validator: validate_target_temperature("abc")
+Validator -> Validator: is_numeric("abc")?
+note right of Validator
+    ✗ Nicht numerisch
+    → Wirft ValueError
+end note
+Validator --> GrillController: ValueError("Temperatur muss eine Zahl sein")
+GrillController --> GrillGUI: ValueError
+GrillGUI -> GrillGUI: messagebox.showerror("Fehler", "Ungültige Eingabe")
+GrillGUI --> User: Fehlermeldung angezeigt
+
+== Szenario 2: Sensorfehler Simulation ==
+
+User -> GrillGUI: Klick [Sensorfehler triggern] (Test-Button)
+GrillGUI -> GrillController: trigger_sensor_error()
+GrillController -> CurrentTemperature: trigger_sensor_error()
+CurrentTemperature -> CurrentTemperature: _sensor_error = True
+CurrentTemperature --> GrillController: OK
+
+GrillController -> ErrorHandler: add_error(type=SENSOR_ERROR, msg="...")
+ErrorHandler -> ErrorHandler: append zu error_list
+ErrorHandler --> GrillController: OK
+
+GrillController --> GrillGUI: OK
+GrillGUI -> GrillGUI: messagebox.showwarning("Sensorfehler", "...")
+GrillGUI --> User: Warnung angezeigt
+
+par Nach nächstem update()
+    GrillGUI -> GrillController: update()
+    GrillController -> CurrentTemperature: has_sensor_error()?
+    CurrentTemperature --> GrillController: True
+    
+    note right of GrillController
+        Sensorfehler erkannt!
+        Grill wird sofort ausgeschaltet
+    end note
+    
+    GrillController -> PowerState: turn_off()
+    PowerState --> GrillController: OFF
+    
+    GrillController -> GrillController: get_status()
+    note right of GrillController
+        Status = "SENSOR_ERROR"
+    end note
+    
+    GrillController --> GrillGUI: Status("SENSOR_ERROR"), Temp(-1.0)
+    GrillGUI -> GrillGUI: _update_display()
+    GrillGUI -> GrillGUI: status_label.config("SENSORFEHLER", fg="red")
+    GrillGUI -> GrillGUI: current_temp_label.config("FEHLER", fg="red")
+    GrillGUI -> GrillGUI: toggle_power_btn.config(state=DISABLED)
+    note right of GrillGUI
+        Power-Button ist jetzt deaktiviert!
+        Nur Reset möglich
+    end note
+end
+
+User -> GrillGUI: Klick [Fehler zurücksetzen]
+GrillGUI -> GrillController: clear_sensor_error()
+GrillController -> CurrentTemperature: clear_sensor_error()
+CurrentTemperature -> CurrentTemperature: _sensor_error = False
+CurrentTemperature --> GrillController: OK
+
+GrillController -> ErrorHandler: clear_active_error()
+ErrorHandler -> ErrorHandler: error_list.clear()
+ErrorHandler --> GrillController: OK
+
+GrillController --> GrillGUI: OK
+GrillGUI -> GrillGUI: messagebox.showinfo("Erfolg", "Sensorfehler zurückgesetzt!")
+GrillGUI --> User: Bestätigung
+
+== Szenario 3: +10°C bei Zieltemp=0 (Sprint 3.1 BUGFIX) ==
+
+note over GrillGUI, GrillController
+    Zieltemp: 0°C
+    Grill: AUS
+    User klickt [+10°C]
+end note
+
+GrillGUI -> GrillController: increase_target_temperature(10)
+GrillController -> TargetTemperature: increase(10)
+TargetTemperature -> Validator: validate_temperature_step(0, 10)
+Validator -> Validator: berechne neue Temp
+note right of Validator
+    Spezial-Logik (Sprint 3.1):
+    0°C + 10°C → SPRINGE auf 50°C
+    (nicht auf 10°C!)
+end note
+Validator --> TargetTemperature: 50.0 (validiert)
+TargetTemperature -> TargetTemperature: _target_temp = 50.0
+TargetTemperature --> GrillController: OK (50.0)
+
+note right of GrillController
+    BUGFIX Sprint 3.1:
+    increase() ändert NUR Zieltemperatur
+    Grill wird NICHT automatisch eingeschaltet!
+end note
+
+GrillController --> GrillGUI: OK
+GrillGUI -> GrillGUI: _update_display()
+GrillGUI -> GrillGUI: target_temp_label.config("50.0 °C")
+GrillGUI --> User: Zieltemp zeigt 50°C, Grill bleibt AUS
+
+== Szenario 4: Zieltemp=0 + 10 Sekunden Timer (Sprint 3.1 BUGFIX) ==
+
+note over GrillGUI, CurrentTemperature
+    Grill: AN
+    Zieltemp wird auf 0°C gesetzt
+    Temp sinkt zu Raumtemperatur
+end note
+
+GrillController -> GrillController: _handle_shutdown_timer()
+note right of GrillController
+    Zieltemp=0 erkannt!
+    Start: 10-Sekunden Timer
+    20 Updates × 500ms = 10 Sekunden
+end note
+
+par Während Timer läuft (Updates 0-19)
+    loop 20x alle 500ms
+        GrillController -> CurrentTemperature: set_target_temperature(20)
+        CurrentTemperature --> GrillController: OK
+        
+        GrillController -> CurrentTemperature: update()
+        note right of CurrentTemperature
+            Temp sinkt zu 20°C
+            BUGFIX: Stoppt bei 20°C!
+        end note
+        CurrentTemperature --> GrillController: updated
+        
+        GrillController -> GrillController: _shutdown_timer += 1
+        GrillController -> GrillController: get_status()
+        note right of GrillController
+            Status = "WAITING"
+            (oder "COOLING_DOWN" wenn noch > 50°C)
+        end note
+        
+        GrillController --> GrillGUI: Status, Temps
+        GrillGUI -> GrillGUI: status_label.config("WARTET (Auto-AUS)")
+    end
+end
+
+par Nach Timer (Update 20)
+    GrillController -> GrillController: _shutdown_timer >= 20?
+    note right of GrillController
+        JA! 10 Sekunden vergangen
+    end note
+    
+    GrillController -> PowerState: turn_off()
+    PowerState --> GrillController: OFF (automatisch!)
+    
+    GrillController -> GrillController: _shutdown_timer = 0
+    GrillController -> GrillController: get_status()
+    note right of GrillController
+        Status = "OFF"
+    end note
+    
+    GrillController --> GrillGUI: Status("OFF")
+    GrillGUI -> GrillGUI: status_label.config("AUS")
+    GrillGUI --> User: Grill ist jetzt AUS (automatisch nach 10 Sekunden)
+end
+
+@enduml

@@ -1,0 +1,126 @@
+@startuml Sequenzdiagramm_Sprint2
+' Sprint 2 Sequenzdiagramm
+' Zeigt Interaktion zwischen GUI, Controller und Model
+
+title Sprint 2 - Sequenzdiagramm (GUI ↔ Controller ↔ Model)
+
+actor User
+participant GrillGUI
+participant GrillController
+participant TargetTemperature
+participant CurrentTemperature
+participant PowerState
+
+User -> GrillGUI: Setzt Zieltemp auf 180°C\n(im Eingabefeld)
+GrillGUI -> GrillGUI: _set_target()
+GrillGUI -> GrillController: set_target_temperature(180)
+GrillController -> TargetTemperature: set_target_temperature(180)
+TargetTemperature -> TargetTemperature: validate(180)
+note right of TargetTemperature
+    ✓ 180 ist in Range [50-500]
+    ✓ Keine Fehler
+end note
+TargetTemperature --> GrillController: OK (180.0)
+GrillController -> PowerState: turn_on()
+PowerState --> GrillController: OK (ist jetzt ON)
+GrillController --> GrillGUI: OK
+GrillGUI -> GrillGUI: messagebox("Erfolg")
+GrillGUI -> GrillGUI: _update_display()
+GrillGUI --> User: GUI zeigt neue Werte
+
+par Loop: Alle 500ms (root.after)
+    GrillGUI -> GrillController: update()
+    GrillController -> TargetTemperature: get_target_temperature()
+    TargetTemperature --> GrillController: 180.0
+    
+    GrillController -> PowerState: is_on()
+    PowerState --> GrillController: True
+    
+    GrillController -> CurrentTemperature: set_target_temperature(180)
+    CurrentTemperature --> GrillController: OK
+    
+    GrillController -> CurrentTemperature: update()
+    note right of CurrentTemperature
+        Rampen-Simulation:
+        Alte Temp: 25.0°C
+        Neue Temp: 25.0 + 2.0 = 27.0°C
+        (Heating Rate pro 500ms)
+    end note
+    CurrentTemperature --> GrillController: updated
+    
+    GrillController -> CurrentTemperature: get_temperature()
+    CurrentTemperature --> GrillController: 27.0
+    
+    GrillController -> GrillController: berechne_status()
+    note right of GrillController
+        Logik:
+        27.0 < 180.0?
+        → Status: "HEATING"
+    end note
+    
+    GrillController --> GrillGUI: Status("HEATING"), CurrentTemp(27.0), TargetTemp(180.0)
+    GrillGUI -> GrillGUI: _update_display()
+    GrillGUI -> GrillGUI: aktuelle_label.config("27.0 °C")
+    GrillGUI -> GrillGUI: status_label.config("AUFHEIZEN")
+end
+
+par Nach ~160 Updates (80 Sekunden)
+    GrillGUI -> GrillController: update()
+    GrillController -> CurrentTemperature: get_temperature()
+    CurrentTemperature --> GrillController: 180.0
+    
+    GrillController -> GrillController: berechne_status()
+    note right of GrillController
+        180.0 >= 180.0?
+        → Status: "TARGET_REACHED"
+    end note
+    
+    GrillController --> GrillGUI: Status("TARGET_REACHED"), CurrentTemp(180.0)
+    GrillGUI -> GrillGUI: _update_display()
+    GrillGUI -> GrillGUI: status_label.config("ZIEL ERREICHT", fg="green")
+    GrillGUI -> GrillGUI: target_reached_label.config("Ja")
+end
+
+User -> GrillGUI: Klick [EIN/AUS]
+GrillGUI -> GrillController: toggle_power()
+GrillController -> PowerState: toggle_power()
+PowerState -> PowerState: _is_on = False
+PowerState --> GrillController: OFF
+GrillController --> GrillGUI: OK
+GrillGUI -> GrillGUI: _update_display()
+GrillGUI -> GrillGUI: toggle_power_btn.config(bg="red")
+GrillGUI --> User: Button ist jetzt ROT
+
+par Nach Grill AUS
+    GrillGUI -> GrillController: update()
+    GrillController -> PowerState: is_on()
+    PowerState --> GrillController: False
+    
+    GrillController -> CurrentTemperature: set_target_temperature(20) 
+    note right of CurrentTemperature
+        Wenn Grill AUS:
+        Zieltemp = Raumtemperatur (20°C)
+    end note
+    CurrentTemperature --> GrillController: OK
+    
+    GrillController -> CurrentTemperature: update()
+    note right of CurrentTemperature
+        Abkühlen:
+        180.0 - 0.5 = 179.5°C
+        (Cooling Rate)
+    end note
+    CurrentTemperature --> GrillController: updated
+    
+    GrillController -> GrillController: berechne_status()
+    note right of GrillController
+        PowerState OFF?
+        180 > 50?
+        → Status: "COOLING_DOWN"
+    end note
+    
+    GrillController --> GrillGUI: Status("COOLING_DOWN"), CurrentTemp(179.5)
+    GrillGUI -> GrillGUI: _update_display()
+    GrillGUI -> GrillGUI: status_label.config("ABKÜHLUNG", fg="orange")
+end
+
+@enduml

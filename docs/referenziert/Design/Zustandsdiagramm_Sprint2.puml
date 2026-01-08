@@ -1,0 +1,62 @@
+@startuml Zustandsdiagramm_Sprint2
+' Sprint 2 Zustandsdiagramm
+' Zeigt die 4 Zustände und deren Übergänge (Power + Temperatur)
+
+title Sprint 2 - Zustandsdiagramm (Grill Status)
+
+[*] --> OFF : Start (Grill AUS)
+
+state OFF as "🔴 OFF\n(Stromlos, Temp <= 50°C)"
+state HEATING as "🟠 HEATING\n(Grill AN, Temp < Zieltemp)"
+state TARGET_REACHED as "🟢 TARGET_REACHED\n(Grill AN, Temp >= Zieltemp)"
+state COOLING_DOWN as "🟠 COOLING_DOWN\n(Grill AUS, aber Temp > 50°C)"
+
+' Übergänge
+OFF --> HEATING : User setzt Zieltemp > 50°C\n(Grill startet automatisch)
+OFF --> COOLING_DOWN : Grill war AN, jetzt AUS\n(Temp noch > 50°C)
+HEATING --> TARGET_REACHED : Aktuelle Temp >= Zieltemp\n(Diff < 2°C)
+HEATING --> OFF : Grill AUS geschaltet\n(oder Temp fällt unter Zieltemp stark)
+HEATING --> COOLING_DOWN : Grill AUS, aber Temp > 50°C
+TARGET_REACHED --> HEATING : Temperatur unterschreitet Zieltemp
+TARGET_REACHED --> OFF : Grill AUS geschaltet
+TARGET_REACHED --> COOLING_DOWN : Grill AUS, aber Temp > 50°C
+COOLING_DOWN --> OFF : Temp sinkt auf <= 50°C
+COOLING_DOWN --> HEATING : User setzt neue Zieltemp > Aktuelle
+
+COOLING_DOWN --> [*] : System herunterfahren
+
+note right of HEATING
+    Heizphase
+    Update: alle 500ms
+    Heating Rate: +2.0°C pro 500ms
+end note
+
+note right of TARGET_REACHED
+    Zieltemperatur erreicht
+    Heizt nicht mehr
+    Wartet auf neue Eingabe
+end note
+
+note right of COOLING_DOWN
+    Restwärme-Phase
+    Grill ist ausgeschaltet
+    Temperatur sinkt langsam
+    Cooling Rate: -0.5°C pro 500ms
+end note
+
+note right of OFF
+    Normaler Zustand
+    Grill komplett aus
+    Temperatur = Raumtemp (20°C)
+end note
+
+note as NLogic
+    Status-Berechnung in get_status():
+    1. Prüfe Stromstatus (power_state.is_on())
+    2. Vergleiche aktuelle vs. Zieltemperatur
+    3. Bestimme Zustand basierend auf Schwellwerten:
+       - TEMP_THRESHOLD_REACHED = 2.0°C
+       - TEMP_THRESHOLD_COOLING = 50.0°C
+end note
+
+@enduml
