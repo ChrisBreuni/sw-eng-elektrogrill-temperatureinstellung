@@ -4,8 +4,6 @@ CurrentTemperature - Modell für aktuelle Temperatur des Grills
 Verantwortlichkeiten:
 - Speichert die aktuelle Temperatur
 - Simuliert Temperaturänderungen
-- Erkennt Sensorfehler
-- Validiert Temperaturwerte
 """
 
 
@@ -20,7 +18,6 @@ class CurrentTemperature:
     Attributes:
         _current_temp (float): Aktuelle Temperatur in °C
         _target_temp (float): Zieltemperatur für Rampenfunktion
-        _sensor_ok (bool): Status des Sensors (True = OK, False = Fehler)
         _heating_rate (float): Aufheizrate in °C pro Update (500ms)
         _cooling_rate (float): Abkühlrate in °C pro Update (500ms)
     """
@@ -29,7 +26,6 @@ class CurrentTemperature:
     INITIAL_TEMP = 20.0
     MIN_TEMP = 0.0
     MAX_TEMP = 600.0
-    SENSOR_ERROR_VALUE = -1.0
     
     # Raten für Simulation (pro 500ms Update)
     HEATING_RATE = 2.0      # °C pro Update
@@ -39,7 +35,6 @@ class CurrentTemperature:
         """Initialisiert die aktuelle Temperatur."""
         self._current_temp = self.INITIAL_TEMP
         self._target_temp = self.INITIAL_TEMP
-        self._sensor_ok = True
         self._heating_rate = self.HEATING_RATE
         self._cooling_rate = self.COOLING_RATE
     
@@ -48,10 +43,8 @@ class CurrentTemperature:
         Gibt die aktuelle Temperatur zurück.
         
         Returns:
-            float: Aktuelle Temperatur in °C, oder -1.0 bei Sensorfehler
+            float: Aktuelle Temperatur in °C
         """
-        if not self._sensor_ok:
-            return self.SENSOR_ERROR_VALUE
         return self._current_temp
     
     def set_target_temperature(self, target: float) -> None:
@@ -77,9 +70,6 @@ class CurrentTemperature:
         - Wenn Zieltemperatur niedriger: Abkühlen mit COOLING_RATE
         - Wenn erreicht: Bleibe auf Zieltemperatur
         """
-        if not self._sensor_ok:
-            return
-        
         diff = self._target_temp - self._current_temp
         
         if diff > 0:
@@ -92,25 +82,7 @@ class CurrentTemperature:
         # Sicherstelle dass Grenzen nicht überschritten
         self._current_temp = max(self.MIN_TEMP, min(self._current_temp, self.MAX_TEMP))
     
-    def is_sensor_ok(self) -> bool:
-        """
-        Prüft ob der Sensor OK ist.
-        
-        Returns:
-            bool: True wenn Sensor OK, False bei Fehler
-        """
-        return self._sensor_ok
-    
-    def trigger_sensor_error(self) -> None:
-        """Triggered einen Sensorfehler (für Testing)."""
-        self._sensor_ok = False
-    
-    def clear_sensor_error(self) -> None:
-        """Hebt einen Sensorfehler auf (für Testing)."""
-        self._sensor_ok = True
-    
     def reset(self) -> None:
         """Setzt die Temperatur auf Initialwert zurück."""
         self._current_temp = self.INITIAL_TEMP
         self._target_temp = self.INITIAL_TEMP
-        self._sensor_ok = True

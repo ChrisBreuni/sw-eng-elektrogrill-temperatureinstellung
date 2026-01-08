@@ -3,7 +3,7 @@ GrillController - Controller für Elektrogrill-Steuerung
 
 Verantwortlichkeiten:
 - Koordiniert alle Model-Komponenten (CurrentTemp, TargetTemp, PowerState)
-- Berechnet Grillstatus (OFF, AUFHEIZEN, ZIEL ERREICHT, ABKÜHLUNG, FEHLER)
+- Berechnet Grillstatus (OFF, AUFHEIZEN, ZIEL ERREICHT, ABKÜHLUNG)
 - Simuliert Temperaturänderungen
 - Schnittstelle für GUI
 """
@@ -31,7 +31,6 @@ class GrillController:
     STATE_HEATING = "HEATING"
     STATE_TARGET_REACHED = "TARGET_REACHED"
     STATE_COOLING_DOWN = "COOLING_DOWN"
-    STATE_SENSOR_ERROR = "SENSOR_ERROR"
     
     # Konstanten
     TEMP_THRESHOLD_REACHED = 2.0  # Zieltemperatur als erreicht gelten wenn diff < 2°C
@@ -70,7 +69,7 @@ class GrillController:
         Gibt die aktuelle Temperatur zurück.
         
         Returns:
-            float: Aktuelle Temperatur in °C (oder -1.0 bei Sensorfehler)
+            float: Aktuelle Temperatur in °C
         """
         return self.current_temp.get_temperature()
     
@@ -92,15 +91,10 @@ class GrillController:
         - HEATING: Grill an, aktuelle < Zieltemperatur
         - TARGET_REACHED: Grill an, aktuelle >= Zieltemperatur
         - COOLING_DOWN: Grill aus, aber Temperatur > 50°C
-        - SENSOR_ERROR: Sensorfehler erkannt
         
         Returns:
             str: Aktueller Status
         """
-        # Prüfe Sensorfehler zuerst
-        if not self.current_temp.is_sensor_ok():
-            return self.STATE_SENSOR_ERROR
-        
         current = self.current_temp.get_temperature()
         target = self.target_temp.get_target_temperature()
         power_on = self.power_state.is_on()

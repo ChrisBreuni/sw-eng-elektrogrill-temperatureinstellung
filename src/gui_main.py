@@ -6,10 +6,12 @@ Kommuniziert ausschließlich über den GrillController mit der Model-Schicht.
 
 Features:
 - 4 Frames: Header, Temperatur, Status, Power
-- 13 Widgets für Anzeige und Interaktion
+- 11 Widgets für Anzeige und Interaktion
 - Periodische Aktualisierung (500ms)
 - Farbcodierte Status
 - Fehlerbehandlung mit Messageboxen
+
+HINWEIS: Sensor-Fehler-Erkennung ist für Sprint 3 geplant
 """
 
 import tkinter as tk
@@ -35,7 +37,7 @@ class GrillGUI:
     
     # Fenster
     WINDOW_WIDTH = 600
-    WINDOW_HEIGHT = 500
+    WINDOW_HEIGHT = 560
     
     # Timing
     UPDATE_INTERVAL = 500  # ms
@@ -242,23 +244,6 @@ class GrillGUI:
             fg=self.COLOR_ERROR
         )
         self._ui_refs['cooling_label'].grid(row=2, column=1, sticky="e", pady=5)
-        
-        # Sensor
-        tk.Label(
-            status_frame,
-            text="Sensor Status:",
-            font=("Arial", 10),
-            bg=self.COLOR_BG_CARD
-        ).grid(row=3, column=0, sticky="w", pady=5)
-        
-        self._ui_refs['sensor_label'] = tk.Label(
-            status_frame,
-            text="OK",
-            font=("Arial", 11),
-            bg=self.COLOR_BG_CARD,
-            fg=self.COLOR_SUCCESS
-        )
-        self._ui_refs['sensor_label'].grid(row=3, column=1, sticky="e", pady=5)
 
         # ==================== Power Frame ====================
         power_frame = tk.LabelFrame(
@@ -311,19 +296,15 @@ class GrillGUI:
         """Handler für [+10°C] Button."""
         try:
             self.controller.increase_target_temperature(10.0)
-            new_temp = self.controller.get_target_temperature()
-            messagebox.showinfo("Erfolg", f"Zieltemperatur auf {new_temp:.1f} °C erhöht.")
-        except ValueError as e:
-            messagebox.showerror("Fehler", f"Nicht möglich: {str(e)}")
+        except ValueError:
+            pass
 
     def _decrease_target(self) -> None:
         """Handler für [-10°C] Button."""
         try:
             self.controller.decrease_target_temperature(10.0)
-            new_temp = self.controller.get_target_temperature()
-            messagebox.showinfo("Erfolg", f"Zieltemperatur auf {new_temp:.1f} °C gesenkt.")
-        except ValueError as e:
-            messagebox.showerror("Fehler", f"Nicht möglich: {str(e)}")
+        except ValueError:
+            pass
 
     def _toggle_power(self) -> None:
         """Handler für [EIN/AUS] Button."""
@@ -342,18 +323,14 @@ class GrillGUI:
         target = self.controller.get_target_temperature()
         status = self.controller.get_status()
         power_on = self.controller.power_state.is_on()
-        sensor_ok = self.controller.current_temp.is_sensor_ok()
         target_reached = self.controller.is_target_reached()
         cooling = self.controller.is_cooling_down()
         
         # Aktuelle Temperatur
-        if current < 0:
-            self._ui_refs['current_temp_label'].config(text="ERROR", fg=self.COLOR_ERROR)
-        else:
-            self._ui_refs['current_temp_label'].config(
-                text=f"{current:.1f} °C",
-                fg=self.COLOR_PRIMARY
-            )
+        self._ui_refs['current_temp_label'].config(
+            text=f"{current:.1f} °C",
+            fg=self.COLOR_PRIMARY
+        )
         
         # Zieltemperatur
         self._ui_refs['target_temp_label'].config(text=f"{target:.1f} °C")
@@ -364,7 +341,6 @@ class GrillGUI:
             "HEATING": ("AUFHEIZEN", self.COLOR_WARNING),
             "TARGET_REACHED": ("ZIEL ERREICHT", self.COLOR_SUCCESS),
             "COOLING_DOWN": ("ABKÜHLUNG", self.COLOR_WARNING),
-            "SENSOR_ERROR": ("SENSOR FEHLER", self.COLOR_ERROR),
         }
         
         status_text, status_color = status_map.get(status, (status, self.COLOR_PRIMARY))
@@ -380,12 +356,6 @@ class GrillGUI:
         self._ui_refs['cooling_label'].config(
             text="Ja" if cooling else "Nein",
             fg=self.COLOR_WARNING if cooling else self.COLOR_ERROR
-        )
-        
-        # Sensor
-        self._ui_refs['sensor_label'].config(
-            text="OK" if sensor_ok else "FEHLER",
-            fg=self.COLOR_SUCCESS if sensor_ok else self.COLOR_ERROR
         )
         
         # Power-Status
