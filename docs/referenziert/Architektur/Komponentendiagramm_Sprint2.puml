@@ -1,0 +1,47 @@
+@startuml Komponentendiagramm_Sprint2
+
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+skinparam component {
+  BackgroundColor lightblue
+  BorderColor black
+}
+
+package "Elektrogrill Steuerung - Sprint 2" {
+  
+  component "Benutzeroberfläche" as GUI {
+  }
+  
+  component "Grillsteuerung" as GC {
+  }
+  
+  component "Temperaturmodell" as TM {
+  }
+  
+  GUI -down-> GC : get_current_temperature()\nget_target_temperature()\nset_target_temperature()\nis_target_reached()\nis_cooling_down()\nturn_on()\nturn_off()
+  
+  GC -down-> TM : set_target_temperature()\nget_target_temperature()\nget_current_temperature()\nturn_on()\nturn_off()\nis_on()
+
+}
+
+note right of GUI
+  **Verantwortlichkeiten:**
+  - Anzeige von Temperaturen und Status
+  - Nutzerinteraktion
+  - Live-Updates
+end note
+
+note right of GC
+  **Verantwortlichkeiten:**
+  - Statusberechnung
+  - Koordination
+  - Vermittlung zwischen GUI und Modell
+end note
+
+note right of TM
+  **Verantwortlichkeiten:**
+  - Speicherung Ziel- und aktueller Temperatur
+  - Verwaltung Power-State
+end note
+
+@enduml

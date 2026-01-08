@@ -55,7 +55,7 @@ Performance und Robustheit werden folgende Architektur-Verbesserungen vorgenomme
 
 **A4. Performance-Monitoring:** Einführung eines `PerformanceMonitor` zur Überwachung der Update-Zeiten. Sicherstellen, dass alle Updates <500ms erfolgen.
 
-[Architektur](../Architektur.md)
+[Architektur](Architektur3.md)
 
 ---
 

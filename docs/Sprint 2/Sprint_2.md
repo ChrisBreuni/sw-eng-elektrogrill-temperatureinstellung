@@ -59,7 +59,7 @@ mit klarer Separation of Concerns.
 
 **A4. Ereignissteuerung:** Periodische Aktualisierung mit Tkinter: `root.after(interval, callback)`. Keine while-Schleifen → GUI bleibt reaktionsfähig.
 
-[Architektur](../Architektur.md)
+[Architektur](Architektur2.md)
 
 ---
 

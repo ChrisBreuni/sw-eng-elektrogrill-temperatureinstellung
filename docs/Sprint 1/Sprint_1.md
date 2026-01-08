@@ -46,7 +46,7 @@ mit klarer Trennung der Verantwortlichkeiten.
 
 **A4. Power-State-Management:** Architektur für die An-/Ausfunktion vorbereiten. Separates Modul für den Betriebsstatus des Grills.
 
-[Architektur](../Architektur.md)
+[Architektur](Architektur1.md)
 
 ---
 

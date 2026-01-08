@@ -1,0 +1,61 @@
+@startuml Komponentendiagramm_Sprint3
+
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+skinparam component {
+  BackgroundColor lightblue
+  BorderColor black
+}
+
+package "Elektrogrill Steuerung - Sprint 3" {
+  
+  component "Benutzeroberfläche" as GUI {
+  }
+  
+  component "Validierung" as VAL {
+  }
+  
+  component "Grillsteuerung" as GC {
+  }
+  
+  component "Temperaturmodell" as TM {
+  }
+  
+  GUI -down-> VAL : validate_temperature()\nget_current_error()\nhas_error()\nclear_error()
+  
+  GUI -down-> GC : get_current_temperature()\nget_target_temperature()\nset_target_temperature()\nis_target_reached()\nis_cooling_down()\nturn_on()\nturn_off()
+  
+  VAL -down-> GC : handle_sensor_error()\nhandle_invalid_input()\ntransition_to()
+  
+  GC -down-> TM : set_target_temperature()\nget_target_temperature()\nget_current_temperature()\nis_sensor_ok()\nturn_on()\nturn_off()\nis_on()
+
+}
+
+note right of GUI
+  **Verantwortlichkeiten:**
+  - Anzeige von Temperaturen und Status
+  - Nutzerinteraktion
+  - Live-Updates
+end note
+
+note right of VAL
+  **Verantwortlichkeiten:**
+  - Zentrale Validierung
+  - Fehlerbehandlung
+  - Zustandsautomatik
+end note
+
+note right of GC
+  **Verantwortlichkeiten:**
+  - Statusberechnung
+  - Koordination
+  - Performance-Optimierung
+end note
+
+note right of TM
+  **Verantwortlichkeiten:**
+  - Speicherung Ziel- und aktueller Temperatur
+  - Verwaltung Power-State
+end note
+
+@enduml

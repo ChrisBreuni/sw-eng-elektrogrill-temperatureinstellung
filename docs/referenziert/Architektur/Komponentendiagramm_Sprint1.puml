@@ -1,0 +1,35 @@
+@startuml Komponentendiagramm_Sprint1
+
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+skinparam component {
+  BackgroundColor lightblue
+  BorderColor black
+}
+
+package "Elektrogrill Steuerung - Sprint 1" {
+  
+  component "Grillsteuerung" as GC {
+  }
+  
+  component "Temperaturmodell" as TM {
+  }
+  
+  GC -down-> TM : set_target_temperature()\nget_target_temperature()\nget_current_temperature()\nturn_on()\nturn_off()\nis_on()
+
+}
+
+note right of GC
+  **Verantwortlichkeiten:**
+  - Statusberechnung
+  - Koordination
+  - Validierung von Temperaturwerten
+end note
+
+note right of TM
+  **Verantwortlichkeiten:**
+  - Speicherung Ziel- und aktueller Temperatur
+  - Verwaltung Power-State
+end note
+
+@enduml
