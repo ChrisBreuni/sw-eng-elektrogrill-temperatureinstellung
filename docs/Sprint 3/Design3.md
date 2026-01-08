@@ -1,4 +1,20 @@
 # Design Sprint 3 – Fehlerbehandlung & Performance
+Bezüglich des Designs gab es in Sprint 3 nicht allzu viele Änderungen, jedoch wurden bestimmte
+Status abgeändert, wodurch sich teilweise Buttons und damit auch das GUI-Fenster vergrößert haben.
+
+## Klassendiagramm
+![Klassendiagramm_Sprint3](../referenziert/Design/Klassendiagramm_Sprint3.png)
+
+---
+
+## Zustandsdiagramm
+![Zustandsdiagramm Sprint3](../referenziert/Design/Zustandsdiagramm_Sprint3.png)
+
+---
+
+![Sequenzdiagramm_Sprint3](../referenziert/Design/Sequenzdiagramm_Sprint3.png)
+
+---
 
 ## Klasse Validator
 **Zentrale Validierungsklasse**
@@ -77,16 +93,6 @@ ERROR → *: Fehler behoben
 ### Neue Methoden:
 - **display_error(error_message)**: Zeigt Fehler an
 - **clear_error_display()**: Löscht Fehleranzeige
-
----
-
-## Klassendiagramm
-![Klassendiagramm_Sprint3](../referenziert/Design/Klassendiagramm_Sprint3.png)
-
----
-
-## Zustandsdiagramm
-![Zustandsdiagramm Sprint3](../referenziert/Design/Zustandsdiagramm_Sprint3.png)
 
 ---
 
