@@ -1,14 +1,11 @@
 # sw-eng-elektrogrill-temperatureinstellung
-Git Repository meines Software Engineering Projekts "Temperatureinstellung eines Elektrogrills".
+Dies ist das Git-Repository meines Software Engineering-Projektes "Temperatureinstellung eines Elektrogrills".
 
-Eigenständigkeitserklärung:
+Um den Elektrogrill zum Zeitpunkt der bestimmten Sprints zu testen, muss einer der folgenden commands in die 
+Konsole getippt werden:
 
-Ich versichere, dass ich die Projektarbeit ohne Hilfe Dritter und ohne Benutzung anderer als
-der angegebenen Quellen und Hilfsmittel angefertigt habe. Die den benutzten Quellen wörtlich
-oder inhaltlich entnommenen Inhalte sind als solche kenntlich gemacht.
-Ich erteile hiermit der TH Deggendorf das Recht, die von mir erstellte Software für
-hochschulinterne Zwecke verwenden zu dürfen.
+`git checkout v1`, `git checkout v2` oder `git checkout v3`
 
-Ort, Datum:
-
-Unterschrift:
+Nun muss nur noch die [main.py](src/main.py) Datei mit einem geeigneten Python interpreter ausgeführt werden
+(z.B. mit Python 3.13), damit der Stand des jeweiliges Sprints entweder in einer Konsolenausgabe oder in einem 
+GUI-Fenster zu sehen ist.
