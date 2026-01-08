@@ -36,6 +36,8 @@
 ## Klasse GrillStateMachine
 **Deterministischer Zustandsautomat**
 
+![Zustandsdiagramm](../referenziert/Design/Sprint3_state_machine.png)
+
 ### Zustände:
 - **OFF**: Grill ausgeschaltet, Temperatur < 50°C
 - **ON_HEATING**: Grill an, aktuelle < Zieltemperatur
@@ -75,6 +77,16 @@ ERROR → *: Fehler behoben
 ### Neue Methoden:
 - **display_error(error_message)**: Zeigt Fehler an
 - **clear_error_display()**: Löscht Fehleranzeige
+
+---
+
+## Klassendiagramm
+![Klassendiagramm_Sprint3](../referenziert/Design/Klassendiagramm_Sprint3.png)
+
+---
+
+## Zustandsdiagramm
+![Zustandsdiagramm Sprint3](../referenziert/Design/Zustandsdiagramm_Sprint3.png)
 
 ---
 

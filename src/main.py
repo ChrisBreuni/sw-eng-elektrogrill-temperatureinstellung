@@ -1,12 +1,10 @@
 """
-main.py - Haupteinstiegspunkt der Elektrogrill-Steuerungsanwendung
+main.py - Einstiegspunkt für die Elektrogrill-Steuerung
 
-Startet den Elektrogrill mit GUI.
-
-Struktur:
-- Model-Schicht: CurrentTemperature, TargetTemperature, PowerState
-- Controller-Schicht: GrillController
-- View-Schicht: GrillGUI
+Startet die Anwendung:
+1. Erstellt GrillController (Model + Controller)
+2. Erstellt GrillGUI (View)
+3. Startet die GUI
 """
 
 from src.grill_controller import GrillController
@@ -14,13 +12,12 @@ from src.gui_main import GrillGUI
 
 
 def main():
-    """
-    Startet die Elektrogrill-Steuerungsanwendung mit GUI.
-    """
-    # Erstelle Controller (Model + Business-Logic)
+    """Startet die Elektrogrill-Steuerung."""
+    
+    # Erstelle Controller mit allen Models
     controller = GrillController()
     
-    # Erstelle GUI (View-Schicht)
+    # Erstelle GUI (View) mit Controller
     gui = GrillGUI(controller)
     
     # Starte GUI (Mainloop)

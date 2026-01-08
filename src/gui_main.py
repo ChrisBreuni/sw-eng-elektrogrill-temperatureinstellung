@@ -1,17 +1,9 @@
 """
-GrillGUI - Benutzeroberfläche für Elektrogrill-Steuerung
+GrillGUI - Benutzeroberfläche für Elektrogrill-Steuerung (FIXED Sprint 3.1)
 
-Implementiert die View-Schicht (Präsentationsschicht) mit Tkinter.
-Kommuniziert ausschließlich über den GrillController mit der Model-Schicht.
-
-Features:
-- 4 Frames: Header, Temperatur, Status, Power
-- 11 Widgets für Anzeige und Interaktion
-- Periodische Aktualisierung (500ms)
-- Farbcodierte Status
-- Fehlerbehandlung mit Messageboxen
-
-HINWEIS: Sensor-Fehler-Erkennung ist für Sprint 3 geplant
+Sprint 3.1 BUGFIXES:
+- STATE_WAITING anzeige
+- increase() aktiviert Grill NICHT mehr
 """
 
 import tkinter as tk
@@ -23,68 +15,54 @@ class GrillGUI:
     """
     Tkinter-basierte GUI für die Steuerung des Elektrogrills.
     
-    Implementiert die Präsentationsschicht nach MVC-Pattern.
+    BUGFIX Sprint 3.1: Neuer "WAITING" Status für Zieltemp=0
     """
 
     # ============ Design Konstanten ============
-    # Farben (Material Design)
-    COLOR_PRIMARY = "#2196F3"       # Blau
-    COLOR_SUCCESS = "#4CAF50"       # Grün
-    COLOR_WARNING = "#FF9800"       # Orange
-    COLOR_ERROR = "#F44336"         # Rot
-    COLOR_BG_MAIN = "#F5F5F5"       # Grau
-    COLOR_BG_CARD = "#FFFFFF"       # Weiß
+    COLOR_PRIMARY = "#2196F3"
+    COLOR_SUCCESS = "#4CAF50"
+    COLOR_WARNING = "#FF9800"
+    COLOR_ERROR = "#F44336"
+    COLOR_BG_MAIN = "#F5F5F5"
+    COLOR_BG_CARD = "#FFFFFF"
     
-    # Fenster
     WINDOW_WIDTH = 600
-    WINDOW_HEIGHT = 560
-    
-    # Timing
-    UPDATE_INTERVAL = 500  # ms
+    WINDOW_HEIGHT = 640
+    UPDATE_INTERVAL = 500
 
     def __init__(self, controller: GrillController):
-        """
-        Initialisiert die GUI mit einem GrillController.
-        
-        Args:
-            controller (GrillController): Controller für Business-Logik
-        """
+        """Initialisiert die GUI mit einem GrillController."""
         self.controller = controller
         
-        # Tkinter Hauptfenster
         self.root = tk.Tk()
-        self.root.title("Elektrogrill - Temperatursteuerung")
+        self.root.title("Elektrogrill - Temperatursteuerung (Sprint 3)")
         self.root.geometry(f"{self.WINDOW_WIDTH}x{self.WINDOW_HEIGHT}")
         self.root.resizable(False, False)
         self.root.configure(bg=self.COLOR_BG_MAIN)
         
-        # Widget-Referenzen
         self._ui_refs = {}
         
-        # Erstelle Widgets
         self._create_widgets()
-        
-        # Starte Updates
         self._schedule_update()
 
     def _create_widgets(self) -> None:
         """Erstellt alle UI-Komponenten."""
         
-        # ==================== Header Frame ====================
+        # Header
         header_frame = tk.Frame(self.root, bg=self.COLOR_PRIMARY)
         header_frame.pack(fill=tk.X, padx=0, pady=0)
         
         header_label = tk.Label(
             header_frame,
-            text="Elektrogrill - Temperatursteuerung",
-            font=("Arial", 16, "bold"),
+            text="Elektrogrill - Temperatursteuerung (Sprint 3.1)",
+            font=("Arial", 14, "bold"),
             bg=self.COLOR_PRIMARY,
             fg="white",
-            pady=15
+            pady=12
         )
         header_label.pack()
 
-        # ==================== Temperature Frame ====================
+        # Temperature Frame
         temp_frame = tk.LabelFrame(
             self.root,
             text="Temperaturanzeige",
@@ -95,7 +73,6 @@ class GrillGUI:
         )
         temp_frame.pack(fill=tk.BOTH, padx=15, pady=10)
         
-        # Aktuelle Temperatur
         tk.Label(
             temp_frame,
             text="Aktuelle Temperatur:",
@@ -112,7 +89,6 @@ class GrillGUI:
         )
         self._ui_refs['current_temp_label'].grid(row=0, column=1, sticky="e", pady=5)
         
-        # Zieltemperatur
         tk.Label(
             temp_frame,
             text="Zieltemperatur:",
@@ -129,7 +105,6 @@ class GrillGUI:
         )
         self._ui_refs['target_temp_label'].grid(row=1, column=1, sticky="e", pady=5)
         
-        # Input-Bereich
         tk.Label(
             temp_frame,
             text="Neue Zieltemperatur (50-500 °C):",
@@ -137,7 +112,6 @@ class GrillGUI:
             bg=self.COLOR_BG_CARD
         ).grid(row=2, column=0, columnspan=2, sticky="w", pady=(15, 5))
         
-        # Input-Frame mit Buttons
         input_frame = tk.Frame(temp_frame, bg=self.COLOR_BG_CARD)
         input_frame.grid(row=3, column=0, columnspan=2, sticky="ew", pady=5)
         
@@ -149,7 +123,6 @@ class GrillGUI:
         )
         self._ui_refs['temp_input'].pack(side=tk.LEFT, padx=5)
         
-        # Buttons
         button_frame = tk.Frame(input_frame, bg=self.COLOR_BG_CARD)
         button_frame.pack(side=tk.LEFT, padx=5)
         
@@ -183,7 +156,7 @@ class GrillGUI:
             fg="white"
         ).pack(side=tk.LEFT, padx=5)
 
-        # ==================== Status Frame ====================
+        # Status Frame
         status_frame = tk.LabelFrame(
             self.root,
             text="Status",
@@ -194,7 +167,6 @@ class GrillGUI:
         )
         status_frame.pack(fill=tk.BOTH, padx=15, pady=10)
         
-        # Grillstatus
         tk.Label(
             status_frame,
             text="Grillstatus:",
@@ -211,7 +183,6 @@ class GrillGUI:
         )
         self._ui_refs['status_label'].grid(row=0, column=1, sticky="e", pady=5)
         
-        # Zieltemperatur erreicht
         tk.Label(
             status_frame,
             text="Zieltemperatur erreicht:",
@@ -228,7 +199,6 @@ class GrillGUI:
         )
         self._ui_refs['target_reached_label'].grid(row=1, column=1, sticky="e", pady=5)
         
-        # Abkühlphase
         tk.Label(
             status_frame,
             text="Restwärme (Abkühlung):",
@@ -244,8 +214,24 @@ class GrillGUI:
             fg=self.COLOR_ERROR
         )
         self._ui_refs['cooling_label'].grid(row=2, column=1, sticky="e", pady=5)
+        
+        tk.Label(
+            status_frame,
+            text="Sensorfehler:",
+            font=("Arial", 10),
+            bg=self.COLOR_BG_CARD
+        ).grid(row=3, column=0, sticky="w", pady=5)
+        
+        self._ui_refs['sensor_label'] = tk.Label(
+            status_frame,
+            text="OK",
+            font=("Arial", 11),
+            bg=self.COLOR_BG_CARD,
+            fg=self.COLOR_SUCCESS
+        )
+        self._ui_refs['sensor_label'].grid(row=3, column=1, sticky="e", pady=5)
 
-        # ==================== Power Frame ====================
+        # Power Frame
         power_frame = tk.LabelFrame(
             self.root,
             text="Stromversorgung",
@@ -280,6 +266,38 @@ class GrillGUI:
         )
         self._ui_refs['power_status_label'].pack(side=tk.LEFT, padx=20)
 
+        # Test Frame
+        test_frame = tk.LabelFrame(
+            self.root,
+            text="Testing & Debug (Sprint 3.1)",
+            font=("Arial", 11, "bold"),
+            bg=self.COLOR_BG_CARD,
+            padx=15,
+            pady=10
+        )
+        test_frame.pack(fill=tk.BOTH, padx=15, pady=10)
+        
+        button_test_frame = tk.Frame(test_frame, bg=self.COLOR_BG_CARD)
+        button_test_frame.pack(fill=tk.X)
+        
+        tk.Button(
+            button_test_frame,
+            text="Sensorfehler triggern",
+            font=("Arial", 9),
+            command=self._trigger_sensor_error,
+            bg=self.COLOR_ERROR,
+            fg="white"
+        ).pack(side=tk.LEFT, padx=5, pady=5)
+        
+        tk.Button(
+            button_test_frame,
+            text="Fehler zurücksetzen",
+            font=("Arial", 9),
+            command=self._reset_error,
+            bg=self.COLOR_SUCCESS,
+            fg="white"
+        ).pack(side=tk.LEFT, padx=5, pady=5)
+
     # ============ Event Handler ============
 
     def _set_target(self) -> None:
@@ -293,7 +311,7 @@ class GrillGUI:
             messagebox.showerror("Fehler", f"Ungültige Eingabe: {str(e)}")
 
     def _increase_target(self) -> None:
-        """Handler für [+10°C] Button."""
+        """Handler für [+10°C] Button (BUGFIX: aktiviert Grill NICHT)."""
         try:
             self.controller.increase_target_temperature(10.0)
         except ValueError:
@@ -308,11 +326,17 @@ class GrillGUI:
 
     def _toggle_power(self) -> None:
         """Handler für [EIN/AUS] Button."""
-        self.controller.power_state.toggle_power()
-        
-        # Wenn eingeschaltet und keine Zieltemp: setze 180°C
-        if self.controller.power_state.is_on() and self.controller.get_target_temperature() == 0:
-            self.controller.set_target_temperature(180.0)
+        self.controller.toggle_power()
+
+    def _trigger_sensor_error(self) -> None:
+        """Triggert einen Sensorfehler für Testing."""
+        self.controller.trigger_sensor_error()
+        messagebox.showwarning("Sensorfehler", "Sensorfehler wurde ausgelöst für Testing!")
+
+    def _reset_error(self) -> None:
+        """Setzt Fehler zurück (manueller Reset)."""
+        self.controller.clear_sensor_error()
+        messagebox.showinfo("Erfolg", "Sensorfehler wurde zurückgesetzt!")
 
     # ============ Display Update ============
 
@@ -325,22 +349,31 @@ class GrillGUI:
         power_on = self.controller.power_state.is_on()
         target_reached = self.controller.is_target_reached()
         cooling = self.controller.is_cooling_down()
+        has_error = self.controller.has_error()
         
         # Aktuelle Temperatur
-        self._ui_refs['current_temp_label'].config(
-            text=f"{current:.1f} °C",
-            fg=self.COLOR_PRIMARY
-        )
+        if current == -1.0:
+            self._ui_refs['current_temp_label'].config(
+                text="FEHLER",
+                fg=self.COLOR_ERROR
+            )
+        else:
+            self._ui_refs['current_temp_label'].config(
+                text=f"{current:.1f} °C",
+                fg=self.COLOR_PRIMARY
+            )
         
         # Zieltemperatur
         self._ui_refs['target_temp_label'].config(text=f"{target:.1f} °C")
         
-        # Grillstatus mit Farb-Mapping
+        # Grillstatus mit BUGFIX für WAITING Status
         status_map = {
             "OFF": ("AUS", self.COLOR_ERROR),
             "HEATING": ("AUFHEIZEN", self.COLOR_WARNING),
             "TARGET_REACHED": ("ZIEL ERREICHT", self.COLOR_SUCCESS),
             "COOLING_DOWN": ("ABKÜHLUNG", self.COLOR_WARNING),
+            "WAITING": ("WARTET (Auto-AUS)", self.COLOR_WARNING),
+            "SENSOR_ERROR": ("SENSORFEHLER", self.COLOR_ERROR),
         }
         
         status_text, status_color = status_map.get(status, (status, self.COLOR_PRIMARY))
@@ -358,6 +391,12 @@ class GrillGUI:
             fg=self.COLOR_WARNING if cooling else self.COLOR_ERROR
         )
         
+        # Sensorfehler
+        self._ui_refs['sensor_label'].config(
+            text="FEHLER" if has_error else "OK",
+            fg=self.COLOR_ERROR if has_error else self.COLOR_SUCCESS
+        )
+        
         # Power-Status
         self._ui_refs['toggle_power_btn'].config(
             bg=self.COLOR_SUCCESS if power_on else self.COLOR_ERROR
@@ -369,13 +408,8 @@ class GrillGUI:
 
     def _schedule_update(self) -> None:
         """Plant die nächste Aktualisierung ein."""
-        # Update Controller (Temperaturänderung simulieren)
         self.controller.update()
-        
-        # Update Display (alle Labels)
         self._update_display()
-        
-        # Plane nächsten Update
         self.root.after(self.UPDATE_INTERVAL, self._schedule_update)
 
     def run(self) -> None:
