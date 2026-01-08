@@ -12,6 +12,7 @@ Status abgeändert, wodurch sich teilweise Buttons und damit auch das GUI-Fenste
 
 ---
 
+## Sequenzdiagramm
 ![Sequenzdiagramm_Sprint3](../referenziert/Design/Sequenzdiagramm_Sprint3.png)
 
 ---
