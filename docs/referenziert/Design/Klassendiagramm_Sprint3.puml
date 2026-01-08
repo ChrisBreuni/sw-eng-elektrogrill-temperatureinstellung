@@ -1,0 +1,159 @@
+@startuml Klassendiagramm_Sprint3
+
+!define ABSTRACT abstract
+!define INTERFACE interface
+
+skinparam classBackgroundColor lightblue
+skinparam classBorderColor black
+skinparam arrowColor black
+skinparam backgroundColor white
+
+package "Elektrogrill Steuerung" {
+
+  class GrillGUI {
+    -controller: GrillController
+    -root: Tk
+    -current_temp_label: Label
+    -target_temp_label: Label
+    -status_label: Label
+    -error_label: Label
+    
+    +__init__(controller)
+    +setup_gui()
+    +update_display()
+    +increase_target_temperature()
+    +decrease_target_temperature()
+    +set_target_temperature_from_entry()
+    +toggle_power()
+    +refresh_status_indicators()
+    +run()
+  }
+
+  class GrillController {
+    -target_temp: TargetTemperature
+    -current_temp: CurrentTemperature
+    -power_state: PowerState
+    -validator: Validator
+    -error_handler: ErrorHandler
+    -state_machine: GrillStateMachine
+    
+    +set_target_temperature(value)
+    +get_target_temperature()
+    +get_current_temperature()
+    +is_target_reached()
+    +is_cooling_down()
+    +turn_on()
+    +turn_off()
+    +_update_status()
+  }
+
+  class Validator {
+    -valid_range_min: float
+    -valid_range_max: float
+    
+    +validate_temperature(value)
+    +is_in_range(value, min, max)
+    +is_numeric(value)
+  }
+
+  class ErrorHandler {
+    -current_error: str
+    -timeout: int
+    -error_timer: Timer
+    
+    +handle_sensor_error()
+    +handle_invalid_input(message)
+    +clear_error()
+    +get_current_error()
+    +has_error()
+    -_auto_clear_after_timeout()
+  }
+
+  class GrillStateMachine {
+    -current_state: str
+    -valid_states: list
+    -transition_matrix: dict
+    
+    +__init__()
+    +transition_to(new_state)
+    +get_current_state()
+    +is_valid_transition(from, to)
+    +get_possible_transitions()
+  }
+
+  class TargetTemperature {
+    -_temperature: float
+    
+    +set_temperature(value)
+    +get_temperature()
+  }
+
+  class CurrentTemperature {
+    -_temperature: float
+    -_sensor_error: bool
+    
+    +set_temperature(value)
+    +get_temperature()
+    +is_sensor_ok()
+  }
+
+  class PowerState {
+    -_is_on: bool
+    
+    +turn_on()
+    +turn_off()
+    +is_on()
+    +toggle_power()
+  }
+
+  ' Beziehungen
+  GrillGUI --> GrillController : nutzt
+  GrillController --> TargetTemperature : nutzt
+  GrillController --> CurrentTemperature : nutzt
+  GrillController --> PowerState : nutzt
+  GrillController --> Validator : nutzt
+  GrillController --> ErrorHandler : nutzt
+  GrillController --> GrillStateMachine : nutzt
+
+  Validator --> GrillController : benachrichtigt
+  ErrorHandler --> GrillStateMachine : triggert
+  GrillStateMachine --> GrillController : benachrichtigt
+
+}
+
+note right of GrillGUI
+  **Verantwortlichkeiten:**
+  - GUI-Darstellung
+  - Event-Handling
+  - Update-Loop
+end note
+
+note right of GrillController
+  **Verantwortlichkeiten:**
+  - Orchestrierung
+  - Koordination
+  - Business-Logik
+end note
+
+note right of Validator
+  **Verantwortlichkeiten:**
+  - Eingabe-Validierung
+  - Regelprüfung
+  - Fehler-Strukturierung
+end note
+
+note right of ErrorHandler
+  **Verantwortlichkeiten:**
+  - Fehlererfassung
+  - Error-Display
+  - Auto-Clear
+end note
+
+note right of GrillStateMachine
+  **Verantwortlichkeiten:**
+  - Zustandsverwaltung
+  - Transition-Validierung
+  - Logging
+end note
+
+@enduml

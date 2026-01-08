@@ -1,0 +1,90 @@
+@startuml Zustandsdiagramm_Grill
+
+skinparam backgroundColor white
+skinparam state {
+  BackgroundColor lightblue
+  BorderColor black
+  ArrowColor black
+}
+
+[*] --> OFF
+
+state OFF {
+  OFF : Grill ausgeschaltet
+  OFF : Heizung inaktiv
+  OFF : Keine Stromaufnahme
+}
+
+state ON_HEATING {
+  ON_HEATING : Grill eingeschaltet
+  ON_HEATING : Aktuell < Zieltemperatur
+  ON_HEATING : Heizung läuft
+}
+
+state ON_HOLDING {
+  ON_HOLDING : Grill eingeschaltet
+  ON_HOLDING : Aktuell >= Zieltemperatur
+  ON_HOLDING : Temperatur wird gehalten
+}
+
+state COOLING {
+  COOLING : Grill ausgeschaltet
+  COOLING : Noch > 50°C (Restwärme)
+  COOLING : Heizung inaktiv
+}
+
+state ERROR {
+  ERROR : Fehler erkannt
+  ERROR : Sensor fehlt oder ungültig
+  ERROR : Grill stoppt sofort
+}
+
+OFF --> ON_HEATING : set_target_temperature(50-500°C)\n turn_on()
+
+ON_HEATING --> ON_HOLDING : current_temp >= target_temp\ncalculate_state_of_charge()
+
+ON_HOLDING --> ON_HEATING : current_temp < target_temp
+
+ON_HEATING --> COOLING : set_target_temperature(0)\nturn_off()
+
+ON_HOLDING --> COOLING : set_target_temperature(0)\nturn_off()
+
+COOLING --> OFF : current_temp < 50°C
+
+OFF --> ERROR : sensor_error_detected()\nhandle_sensor_error()
+
+ON_HEATING --> ERROR : sensor_error_detected()\nhandle_sensor_error()
+
+ON_HOLDING --> ERROR : sensor_error_detected()\nhandle_sensor_error()
+
+COOLING --> ERROR : sensor_error_detected()\nhandle_sensor_error()
+
+ERROR --> OFF : error_cleared()\nreset()
+
+note right of OFF
+  Ausgangszustand
+  Power = OFF
+end note
+
+note right of ON_HEATING
+  Zieltemperatur noch nicht erreicht
+  Heizleistung: 100%
+end note
+
+note right of ON_HOLDING
+  Zieltemperatur erreicht
+  Heizleistung: Regelung
+end note
+
+note right of COOLING
+  Grill kühlt ab
+  Heizung aus
+end note
+
+note right of ERROR
+  Kritischer Fehler
+  Sofortiges Shutdown
+  Alarm aktiv
+end note
+
+@enduml
