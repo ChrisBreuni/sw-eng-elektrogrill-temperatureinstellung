@@ -53,9 +53,9 @@ class GrillController:
         if not self.current_temp.is_sensor_ok():
             return False
 
-        tgt = self.target_temp.get_temperature()
-        cur = self.current_temp.get_temperature()
-        return tgt > 0 and cur >= tgt
+        target = self.target_temp.get_temperature()
+        current = self.current_temp.get_temperature()
+        return target > 0 and current >= target
 
     def is_cooling_down(self) -> bool:
         """
@@ -70,8 +70,6 @@ class GrillController:
         """
         Einfache Statusstrings für Sprint 1.
         """
-        if not self.current_temp.is_sensor_ok():
-            return "SENSOR_ERROR"
 
         if not self.power_state.is_on():
             if self.is_cooling_down():

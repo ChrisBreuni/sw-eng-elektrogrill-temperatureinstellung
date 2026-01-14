@@ -21,16 +21,12 @@ if __name__ == "__main__":
     print_state(controller, "Start mit Ziel 180 °C")
 
     # 2) Aufheizen simulieren
-    for temp in [50.0, 120.0, 170.0, 180.0, 200.0]:
+    for temp in [50.0, 120.0, 170.0, 180.0]:
         controller.set_current_temperature(temp)
-        print_state(controller, f"Aufheizen – aktuelle Temperatur {temp} °C")
+        print_state(controller, f"Aufheizen")
 
     # 3) Grill ausschalten – Restwärme
     controller.set_target_temperature(0.0)  # schaltet Power aus
     for temp in [150.0, 80.0, 40.0]:
         controller.set_current_temperature(temp)
-        print_state(controller, f"Nach Ausschalten – Temperatur {temp} °C")
-
-    # 4) Sensorfehler simulieren
-    controller.set_current_temperature(-1.0)
-    print_state(controller, "Sensorfehler (Temperatur = -1.0)")
+        print_state(controller, f"Nach Ausschalten")
