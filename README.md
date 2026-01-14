@@ -9,3 +9,6 @@ Konsole getippt werden:
 Nun muss nur noch die [main.py](src/main.py) Datei mit einem geeigneten Python interpreter ausgeführt werden
 (z.B. mit Python 3.13), damit der Stand des jeweiliges Sprints entweder in einer Konsolenausgabe oder in einem 
 GUI-Fenster zu sehen ist.
+
+## Eigenständigkeitserklärung:
+![Eigenständigkeitserklärung](docs/referenziert/Eigenständigkeitserklärung.png)
