@@ -1,10 +1,3 @@
-"""
-GrillGUI - Benutzeroberfläche für Elektrogrill-Steuerung (FIXED Sprint 3.1)
-
-Sprint 3.1 BUGFIXES:
-- STATE_WAITING anzeige
-- increase() aktiviert Grill NICHT mehr
-"""
 
 import tkinter as tk
 from tkinter import messagebox
@@ -14,8 +7,6 @@ from src.grill_controller import GrillController
 class GrillGUI:
     """
     Tkinter-basierte GUI für die Steuerung des Elektrogrills.
-    
-    BUGFIX Sprint 3.1: Neuer "WAITING" Status für Zieltemp=0
     """
 
     # ============ Design Konstanten ============
@@ -54,7 +45,7 @@ class GrillGUI:
         
         header_label = tk.Label(
             header_frame,
-            text="Elektrogrill - Temperatursteuerung (Sprint 3.1)",
+            text="Elektrogrill - Temperatursteuerung (Sprint 3)",
             font=("Arial", 14, "bold"),
             bg=self.COLOR_PRIMARY,
             fg="white",
