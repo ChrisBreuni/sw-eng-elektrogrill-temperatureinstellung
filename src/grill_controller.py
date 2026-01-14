@@ -249,11 +249,7 @@ class GrillController:
             ValueError: Wenn Wert ungültig
         """
         self.target_temp.set_target_temperature(value)
-        
-        # Wenn Zieltemperatur > 0 und Grill aus: schalte ein
-        if value > 0 and not self.power_state.is_on():
-            self.power_state.turn_on()
-        
+
         # BUGFIX: Timer zurücksetzen bei neuer Zieltemperatur
         if value > 0:
             self._shutdown_timer = 0

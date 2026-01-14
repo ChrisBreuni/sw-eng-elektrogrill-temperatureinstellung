@@ -69,7 +69,7 @@ class CurrentTemperature:
             target (float): Zieltemperatur in °C
         """
         if target < self.MIN_TEMP or target > self.MAX_TEMP:
-            raise ValueError(f"Temperatur muss zwischen {self.MIN_TEMP} und {self.MAX_TEMP} sein")
+            return
         self._target_temp = float(target)
     
     def update(self) -> None:
